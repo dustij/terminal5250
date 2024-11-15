@@ -1,13 +1,14 @@
 package com.dusti.t5250;
 
 import java.awt.AWTEvent;
+import java.awt.BorderLayout;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 
 public class T5250Frame extends JFrame {
     public static final String EXIT_CMD = "EXIT_CMD";
-
     private T5250Ctrl t5250Ctrl;
+    private CharTerminal charTerminal;
 
     public T5250Frame(String title) {
         super(title);
@@ -15,6 +16,13 @@ public class T5250Frame extends JFrame {
         t5250Ctrl = createController();
         enableEvents(AWTEvent.WINDOW_EVENT_MASK);
         getCommandMgr().setCommand(EXIT_CMD, this::processExitCmd);
+
+        charTerminal = new CharTerminal(80, 24);
+        setLayout(new BorderLayout());
+        add(charTerminal, BorderLayout.CENTER);
+
+        pack();
+        setLocationRelativeTo(null);
     }
 
     protected void processExitCmd() {

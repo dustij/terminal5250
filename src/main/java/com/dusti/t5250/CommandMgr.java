@@ -8,9 +8,9 @@ import java.util.logging.Logger;
 public class CommandMgr {
     private static final Logger LOGGER = Logger.getLogger(CommandMgr.class.getName());
 
-    private Map<String, Command> act2cmd = new HashMap<>();
+    private Map<String, CommandAction> act2cmd = new HashMap<>();
 
-    public void setCommand(String act, Command cmd) {
+    public void setCommand(String act, CommandAction cmd) {
         if (act == null) {
             throw new IllegalArgumentException("The action command can't be null");
         }
@@ -22,7 +22,7 @@ public class CommandMgr {
         act2cmd.put(act, cmd);
     }
 
-    public Command getCommand(String act) {
+    public CommandAction getCommand(String act) {
         return act2cmd.get(act);
     }
 
@@ -31,7 +31,7 @@ public class CommandMgr {
             LOGGER.fine("dispatchCommand " + act);
         }
 
-        Command cmd = getCommand(act);
+        CommandAction cmd = getCommand(act);
         if (cmd != null) {
             cmd.exec();
         }
