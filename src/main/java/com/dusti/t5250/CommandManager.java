@@ -5,8 +5,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class CommandMgr {
-    private static final Logger LOGGER = Logger.getLogger(CommandMgr.class.getName());
+public class CommandManager {
+    private static final Logger LOGGER = Logger.getLogger(CommandManager.class.getName());
 
     private Map<String, CommandAction> act2cmd = new HashMap<>();
 
