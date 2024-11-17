@@ -12,6 +12,7 @@ public class T5250Frame extends JFrame {
     private T5250ScreenBuffer screenBuffer;
     private Cursor cursor;
     private T5250Panel panel;
+    private KeyStroker keyStroker;
 
     public T5250Frame(String title) {
         super(title);
@@ -20,6 +21,8 @@ public class T5250Frame extends JFrame {
         screenBuffer = new T5250ScreenBuffer(24, 80);
         cursor = new Cursor(screenBuffer);
         panel = new T5250Panel(screenBuffer, cursor);
+        keyStroker = new KeyStroker(screenBuffer, cursor);
+        this.addKeyListener(keyStroker);
         
         // Adjust minimum size
         Dimension panelMinSize = panel.getMinimumSize();
@@ -39,5 +42,8 @@ public class T5250Frame extends JFrame {
         this.add(panel, new GridBagConstraints());
 
         this.setLocationRelativeTo(null);
+
+        this.setFocusable(true);
+        this.requestFocusInWindow();
     }
 }

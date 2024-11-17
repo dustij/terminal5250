@@ -39,6 +39,12 @@ public class Cursor {
         }
     }
 
+    private void repaintCursor() {
+        if (panel != null) {
+            panel.repaint();
+        }
+    }
+
     public int getRow() {
         return row;
     }
@@ -55,6 +61,8 @@ public class Cursor {
         if (row >= 0 && row < screenBuffer.getRows() && col >= 0 && col < screenBuffer.getCols()) {
             this.row = row;
             this.col = col;
+            visible = true;
+            repaintCursor();
         }
     }
 
