@@ -9,16 +9,20 @@ import javax.swing.JPanel;
 
 public class T5250Panel extends JPanel {
     private final T5250ScreenBuffer screenBuffer;
+    private final Cursor cursor;
     private int rows;
     private int cols;
     private Font font;
 
-    public T5250Panel(T5250ScreenBuffer t5250ScreenBuffer) {
-        screenBuffer = t5250ScreenBuffer;
+    public T5250Panel(T5250ScreenBuffer t5250ScreenBuffer, Cursor cursor) {
+        this.screenBuffer = t5250ScreenBuffer;
+        this.cursor = cursor;
+
         rows = screenBuffer.getRows();
         cols = screenBuffer.getCols();
 
         font = new Font(Font.MONOSPACED, Font.PLAIN, 26);
+        
         this.setFont(font);
         this.setBackground(Color.BLACK);
         this.setPreferredSize(calcPreferredSize());
@@ -48,6 +52,8 @@ public class T5250Panel extends JPanel {
                 g.drawString(String.valueOf(ch), col * getCharWidth(), (row + 1) * getCharHeight() - metrics.getDescent());
             }
         }
+
+        cursor.render(g, metrics, getCharWidth(), getCharHeight());
 
         // For testing purposes
         drawGrid(g);

@@ -8,13 +8,15 @@ import javax.swing.JFrame;
 
 public class T5250Frame extends JFrame {
     private T5250ScreenBuffer screenBuffer;
+    private Cursor cursor;
     private T5250Panel panel;
 
     public T5250Frame(String title) {
         super(title);
 
         screenBuffer = new T5250ScreenBuffer(24, 80);
-        panel = new T5250Panel(screenBuffer);
+        cursor = new Cursor(screenBuffer);
+        panel = new T5250Panel(screenBuffer, cursor);
 
         System.out.println(screenBuffer.getProtectedArea()[0][0]);
 
