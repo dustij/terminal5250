@@ -1,7 +1,9 @@
 package com.dusti.t5250;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.GridBagConstraints;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
@@ -13,22 +15,29 @@ public class T5250Frame extends JFrame {
 
     public T5250Frame(String title) {
         super(title);
-
+        this.getContentPane().setBackground(Color.BLACK);
+        
         screenBuffer = new T5250ScreenBuffer(24, 80);
         cursor = new Cursor(screenBuffer);
         panel = new T5250Panel(screenBuffer, cursor);
-
-        System.out.println(screenBuffer.getProtectedArea()[0][0]);
+        
+        // Adjust minimum size
+        Dimension panelMinSize = panel.getMinimumSize();
+        // Ensures insets are available
+        this.pack();
+        Insets insets = this.getInsets();
+        int frameMinWidth = panelMinSize.width + insets.left + insets.right;
+        int frameMinHeight = panelMinSize.height + insets.top + insets.bottom;
+        this.setMinimumSize(new Dimension(frameMinWidth, frameMinHeight));
 
         // Default frame to fill entire screen
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.setSize(screenSize);
-        this.setMinimumSize(panel.getMinimumSize());
-
+        
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(new GridBagLayout());
-        this.setLocationRelativeTo(null);
-
         this.add(panel, new GridBagConstraints());
+
+        this.setLocationRelativeTo(null);
     }
 }

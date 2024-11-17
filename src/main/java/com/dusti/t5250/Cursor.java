@@ -3,16 +3,40 @@ package com.dusti.t5250;
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import javax.swing.Timer;
 
 public class Cursor {
     private int row;
     private int col;
     private T5250ScreenBuffer screenBuffer;
+    private T5250Panel panel;
+
+    // Blinking cursor
+    private boolean visible;
+    private Timer blinkTimer;
 
     public Cursor(T5250ScreenBuffer screenBuffer) {
         this.screenBuffer = screenBuffer;
         this.row = 0;
         this.col = 0;
+        this.visible = true;
+        startBlinking();
+    }
+
+    public void setPanel(T5250Panel panel) {
+        this.panel = panel;
+    }
+
+    private void startBlinking() {
+        blinkTimer = new Timer(500, e -> toggleVisiblity());
+        blinkTimer.start();
+    }
+
+    private void toggleVisiblity() {
+        visible = !visible;
+        if (panel != null) {
+            panel.repaint();
+        }
     }
 
     public int getRow() {
@@ -21,6 +45,10 @@ public class Cursor {
 
     public int getCol() {
         return col;
+    }
+
+    public T5250Panel getPanel() {
+        return panel;
     }
 
     public void moveTo(int row, int col) {
@@ -35,6 +63,8 @@ public class Cursor {
     }
 
     public void render(Graphics g, FontMetrics fm, int cellWidth, int cellHieght) {
+        if (!visible) return;
+
         int x = col * cellWidth;
         int y = row * cellHieght;
 

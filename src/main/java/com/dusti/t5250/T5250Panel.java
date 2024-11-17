@@ -53,6 +53,9 @@ public class T5250Panel extends JPanel {
             }
         }
 
+        if (cursor.getPanel() == null) {
+            cursor.setPanel(this);
+        }
         cursor.render(g, metrics, getCharWidth(), getCharHeight());
 
         // For testing purposes
@@ -85,4 +88,5 @@ public class T5250Panel extends JPanel {
         }
     }
 
+    
 }

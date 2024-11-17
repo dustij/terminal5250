@@ -100,4 +100,5 @@ public class T5250ScreenBuffer {
         return protectedArea;
     }
 
+    
 }
