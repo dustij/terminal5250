@@ -1,4 +1,4 @@
-package com.dusti.t5250;
+package com.dusti.t5250v1;
 
 import java.util.HashMap;
 import java.util.Map;

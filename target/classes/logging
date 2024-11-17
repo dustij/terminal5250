@@ -1,0 +1,20 @@
+# Set the logging level for the entire application
+.level=ALL
+
+# Define the logger for your app
+app.level=ALL
+
+# Set only the FileHandler (removes ConsoleHandler)
+handlers=java.util.logging.FileHandler
+
+# Configure the FileHandler to write logs to a file
+java.util.logging.FileHandler.pattern=app.log
+java.util.logging.FileHandler.limit=10240      # Max size: 10KB (10 * 1024 bytes)
+java.util.logging.FileHandler.count=5          # Keep up to 5 log files
+java.util.logging.FileHandler.append=true      # Append to the existing log file if it exists
+java.util.logging.FileHandler.level=INFO
+java.util.logging.FileHandler.formatter=java.util.logging.SimpleFormatter
+
+# Optional: Customize the log format
+# java.util.logging.SimpleFormatter.format=%1$tF %1$tT %4$s %2$s - %5$s%6$s%n
+java.util.logging.SimpleFormatter.format=%4$-9s: %5$s [%1$tc]%n

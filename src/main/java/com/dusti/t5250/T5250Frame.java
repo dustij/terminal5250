@@ -1,75 +1,32 @@
 package com.dusti.t5250;
 
-import java.awt.AWTEvent;
-import java.awt.BorderLayout;
-import java.awt.event.WindowEvent;
+import java.awt.Dimension;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Toolkit;
 import javax.swing.JFrame;
 
 public class T5250Frame extends JFrame {
-    public static final String EXIT_CMD = "EXIT_CMD";
-    private T5250Controller t5250Ctrl;
-    private CharacterTerminal terminal;
-    private CharacterTerminalBuffer buffer;
+    private T5250ScreenBuffer screenBuffer;
+    private T5250Panel panel;
 
     public T5250Frame(String title) {
         super(title);
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        t5250Ctrl = createController();
-        enableEvents(AWTEvent.WINDOW_EVENT_MASK);
-        getCommandMgr().setCommand(EXIT_CMD, this::processExitCmd);
 
-        buffer = new CharacterTerminalBuffer(80, 24);
-        terminal = new CharacterTerminal(buffer);
-        setLayout(new BorderLayout());
-        add(terminal, BorderLayout.CENTER);
+        screenBuffer = new T5250ScreenBuffer(24, 80);
+        panel = new T5250Panel(screenBuffer);
 
-        pack();
-        setLocationRelativeTo(null);
+        System.out.println(screenBuffer.getProtectedArea()[0][0]);
 
-        displayMenu();
-    }
+        // Default frame to fill entire screen
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setSize(screenSize);
+        this.setMinimumSize(panel.getMinimumSize());
 
-    private void displayMenu() {
-        buffer.clear();
-        String[] menuOptions = {
-            "1. View Budget",
-            "2. Add Expense",
-            "3. Add Income",
-            "4. Exit"
-        };
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLayout(new GridBagLayout());
+        this.setLocationRelativeTo(null);
 
-        for (int i = 0; i < menuOptions.length; i++) {
-            buffer.writeString(0, i + 1, menuOptions[i]);
-        }
-
-        // Add input field at bottom
-        int bottom = buffer.getRows() - 2;
-        buffer.writeString(0, bottom, "===> " + "_".repeat(buffer.getColumns() - 6));
-
-        terminal.repaint();
-    }
-
-    protected void processExitCmd() {
-        setVisible(false);
-        dispose();
-    }
-
-    protected void processWindowEvent(WindowEvent e) {
-        switch (e.getID()) {
-            case WindowEvent.WINDOW_CLOSING:
-                getCommandMgr().dispatchCommand(EXIT_CMD);
-                break;
-            case WindowEvent.WINDOW_CLOSED:
-                break;
-        }
-        super.processWindowEvent(e);
-    }
-
-    protected T5250Controller createController() {
-        return new T5250Controller();
-    }    
-
-    public final CommandManager getCommandMgr() {
-        return t5250Ctrl.getCommandMgr();
+        this.add(panel, new GridBagConstraints());
     }
 }
