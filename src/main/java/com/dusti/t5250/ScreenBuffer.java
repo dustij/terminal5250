@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
-public class T5250ScreenBuffer {
+public class ScreenBuffer {
     private final int rows;
     private final int cols;
     private final char[][] screenBuffer;
@@ -14,7 +14,7 @@ public class T5250ScreenBuffer {
 
     private final Logger LOGGER;
 
-    public T5250ScreenBuffer(int rows, int cols) {
+    public ScreenBuffer(int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
 
@@ -29,8 +29,23 @@ public class T5250ScreenBuffer {
         // Default green on black
         setDefaultColors();
 
-        LOGGER = T5250Logger.getLogger(this.getClass().getName());
+        LOGGER = MyLogger.getLogger(this.getClass().getName());
         clear();
+
+        // Testing, remove this later
+        insertField(new Field("Test", 15, 10), 4, 1);
+        insertField(new Field("Test", 15, 7), 5, 1);
+        insertField(new Field("Test", 18, 7), 6, 1);
+        insertField(new Field("Test", 18, 4), 7, 1);
+        insertField(new Field("Testing", 18, 4), 8, 1);
+        insertField(new Field("Testing", 18, 3), 9, 1);
+        insertField(new Field("Testing", 20, 3), 10, 1);
+    }
+
+    public void insertField(Field field, int row, int col) {
+        for (int i = 0; i < field.length(); i++) {
+            screenBuffer[row][col+i] = field.getCharAt(i);
+        }
     }
 
     public void writeChar(int row, int col, Character c) throws IndexOutOfBoundsException {
@@ -55,7 +70,7 @@ public class T5250ScreenBuffer {
 
     public void clear() {
         for (char[] row : screenBuffer) {
-            Arrays.fill(row, '.');
+            Arrays.fill(row, ' ');
         }
     }
 

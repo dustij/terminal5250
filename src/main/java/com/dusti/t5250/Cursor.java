@@ -8,14 +8,14 @@ import javax.swing.Timer;
 public class Cursor {
     private int row;
     private int col;
-    private T5250ScreenBuffer screenBuffer;
+    private ScreenBuffer screenBuffer;
     private T5250Panel panel;
 
     // Blinking cursor
     private boolean visible;
     private Timer blinkTimer;
 
-    public Cursor(T5250ScreenBuffer screenBuffer) {
+    public Cursor(ScreenBuffer screenBuffer) {
         this.screenBuffer = screenBuffer;
         this.row = 0;
         this.col = 0;

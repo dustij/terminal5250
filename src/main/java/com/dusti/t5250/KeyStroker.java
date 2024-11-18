@@ -4,10 +4,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyStroker implements KeyListener{
-    private final T5250ScreenBuffer screenBuffer;
+    private final ScreenBuffer screenBuffer;
     private final Cursor cursor;
 
-    public KeyStroker(T5250ScreenBuffer screenBuffer, Cursor cursor) {
+    public KeyStroker(ScreenBuffer screenBuffer, Cursor cursor) {
         this.screenBuffer = screenBuffer;
         this.cursor = cursor;
     }

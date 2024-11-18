@@ -9,7 +9,7 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 
 public class T5250Frame extends JFrame {
-    private T5250ScreenBuffer screenBuffer;
+    private ScreenBuffer screenBuffer;
     private Cursor cursor;
     private T5250Panel panel;
     private KeyStroker keyStroker;
@@ -18,7 +18,7 @@ public class T5250Frame extends JFrame {
         super(title);
         this.getContentPane().setBackground(Color.BLACK);
         
-        screenBuffer = new T5250ScreenBuffer(24, 80);
+        screenBuffer = new ScreenBuffer(24, 80);
         cursor = new Cursor(screenBuffer);
         panel = new T5250Panel(screenBuffer, cursor);
         keyStroker = new KeyStroker(screenBuffer, cursor);

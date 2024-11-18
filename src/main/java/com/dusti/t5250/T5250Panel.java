@@ -8,14 +8,14 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 public class T5250Panel extends JPanel {
-    private final T5250ScreenBuffer screenBuffer;
+    private final ScreenBuffer screenBuffer;
     private final Cursor cursor;
     private int rows;
     private int cols;
     private Font font;
 
-    public T5250Panel(T5250ScreenBuffer t5250ScreenBuffer, Cursor cursor) {
-        this.screenBuffer = t5250ScreenBuffer;
+    public T5250Panel(ScreenBuffer screenBuffer, Cursor cursor) {
+        this.screenBuffer = screenBuffer;
         this.cursor = cursor;
 
         rows = screenBuffer.getRows();

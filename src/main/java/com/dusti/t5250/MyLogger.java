@@ -5,11 +5,11 @@ import java.io.InputStream;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-public class T5250Logger {
+public class MyLogger {
     private static boolean isInitialized = false;
-    private static final Logger LOGGER = Logger.getLogger(T5250Logger.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(MyLogger.class.getName());
 
-    private T5250Logger() {
+    private MyLogger() {
         // Should not be instantiated
     }
 
@@ -22,7 +22,7 @@ public class T5250Logger {
     } 
 
     private static void inititalize() {
-        try (InputStream configFile = T5250Logger.class.getResourceAsStream("/logging")) {
+        try (InputStream configFile = MyLogger.class.getResourceAsStream("/logging")) {
             if (configFile != null) {
                 LogManager.getLogManager().readConfiguration(configFile);
             } else {
