@@ -6,7 +6,6 @@ public class Field {
     private int fieldLength;
     private String fieldDisplay;
     private String inputData;
-    // TODO: add foreground and background color data
 
     public Field(String label, int fieldLength, int inputLength) {
         this.label = label;

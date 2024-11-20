@@ -1,7 +1,9 @@
 package com.dusti.t5250;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class ScreenBuffer {
@@ -11,6 +13,7 @@ public class ScreenBuffer {
     private final boolean[][] protectedArea;
     private final Color[][] fgColor;
     private final Color[][] bgColor;
+    private final List<T5250Cell> fieldsList;
     private boolean msgDisplayedFlag = false;
 
     private final Logger LOGGER;
@@ -23,6 +26,8 @@ public class ScreenBuffer {
         protectedArea = new boolean[rows][cols];
         fgColor = new Color[rows][cols];
         bgColor = new Color[rows][cols];
+
+        fieldsList = new ArrayList<>();
 
         // Default entire screen as protected
         entireScreenToProtected();
@@ -41,14 +46,27 @@ public class ScreenBuffer {
     }
 
     public void insertField(Field field, int row, int col) {
+        boolean fieldAddedFlag = false;
         for (int i = 0; i < field.length(); i++) {
             screenBuffer[row][col+i] = field.getCharAt(i);
             if (i >= field.inputStartPoint()) {
                 // Input area is unprotected
                 protectedArea[row][col+i] = false;
                 fgColor[row][col+i] = Config.getInputForeground();
+                if (!fieldAddedFlag) {
+                    fieldsList.add(new T5250Cell(row, col+i));
+                    fieldAddedFlag = true;
+                }
             }
         }
+    }
+
+    public List<T5250Cell> getFieldList() {
+        return fieldsList;
+    }
+
+    public T5250Cell getFieldCell(int index) {
+        return fieldsList.get(index);
     }
 
     public void displayMessage(String msg) {

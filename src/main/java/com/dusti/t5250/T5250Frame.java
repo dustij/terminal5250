@@ -28,6 +28,8 @@ public class T5250Frame extends JFrame {
         cursor = new Cursor(screenBuffer);
         panel = new T5250Panel(screenBuffer, cursor);
 
+        this.setFocusTraversalKeysEnabled(false);
+
         setupKeyBindings();
         setupMouseListeners();
 
@@ -99,6 +101,33 @@ public class T5250Frame extends JFrame {
             }
         });
 
+        // Tab key
+        inputMap.put(KeyStroke.getKeyStroke("TAB"), "handleTab");
+        actionMap.put("handleTab", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Move cursor to next field
+                int nextIndex = (panel.getCurrentFieldIndex() + 1) % screenBuffer.getFieldList().size();
+                panel.setCurrentFieldIndex(nextIndex);
+                int row = screenBuffer.getFieldCell(panel.getCurrentFieldIndex()).getRow();
+                int col = screenBuffer.getFieldCell(panel.getCurrentFieldIndex()).getCol();
+                cursor.moveTo(row, col);
+            }
+        });
+
+        inputMap.put(KeyStroke.getKeyStroke("shift TAB"), "handleTab");
+        actionMap.put("handleTab", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Move cursor to prev field
+                int nextIndex = Math.abs((panel.getCurrentFieldIndex() - 1))% screenBuffer.getFieldList().size();
+                panel.setCurrentFieldIndex(nextIndex);
+                int row = screenBuffer.getFieldCell(panel.getCurrentFieldIndex()).getRow();
+                int col = screenBuffer.getFieldCell(panel.getCurrentFieldIndex()).getCol();
+                cursor.moveTo(row, col);
+            }
+        });
+
         // Backspace key
         inputMap.put(KeyStroke.getKeyStroke("BACK_SPACE"), "handleBackspace");
         actionMap.put("handleBackspace", new AbstractAction() {
@@ -112,6 +141,23 @@ public class T5250Frame extends JFrame {
                 if (!screenBuffer.isProtectedCell(row, col)) {
                     screenBuffer.clearCell(row, col);
                     cursor.moveLeft();
+                }
+            }
+        });
+
+        // Delete key
+        inputMap.put(KeyStroke.getKeyStroke("DELETE"), "handleDelete");
+        actionMap.put("handleDelete", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                screenBuffer.clearMessage();
+                int row = cursor.getRow();
+                int col = cursor.getCol();
+                if (!screenBuffer.isProtectedCell(row, col)) {
+                    screenBuffer.clearCell(row, col);
+                    if (col > 0) { // can't move left if on left edge
+                        cursor.moveLeft();
+                    }
                 }
             }
         });
@@ -139,7 +185,7 @@ public class T5250Frame extends JFrame {
     private void setupMouseListeners() {
         panel.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseReleased(MouseEvent e) {
                 cursor.moveToXY(e.getX(), e.getY());
             }
         });

@@ -13,6 +13,7 @@ public class T5250Panel extends JPanel {
     private int rows;
     private int cols;
     private Font font;
+    private int currentFieldIndex;
 
     public T5250Panel(ScreenBuffer screenBuffer, Cursor cursor) {
         this.screenBuffer = screenBuffer;
@@ -20,6 +21,7 @@ public class T5250Panel extends JPanel {
 
         rows = screenBuffer.getRows();
         cols = screenBuffer.getCols();
+        currentFieldIndex = 0;
 
         font = Config.getFont();
         
@@ -113,6 +115,14 @@ public class T5250Panel extends JPanel {
 
     public Font getFont() {
         return font;
+    }
+
+    public int getCurrentFieldIndex() {
+        return currentFieldIndex;
+    }
+
+    public void setCurrentFieldIndex(int currentFieldIndex) {
+        this.currentFieldIndex = currentFieldIndex;
     }
 
     

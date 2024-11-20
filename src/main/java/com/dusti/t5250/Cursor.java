@@ -25,6 +25,8 @@ public class Cursor {
 
     public void setPanel(T5250Panel panel) {
         this.panel = panel;
+        row = screenBuffer.getFieldCell(panel.getCurrentFieldIndex()).getRow();
+        col = screenBuffer.getFieldCell(panel.getCurrentFieldIndex()).getCol();
     }
 
     private void startBlinking() {
