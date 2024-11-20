@@ -21,7 +21,7 @@ public class T5250Panel extends JPanel {
         rows = screenBuffer.getRows();
         cols = screenBuffer.getCols();
 
-        font = new Font(Font.MONOSPACED, Font.PLAIN, 26);
+        font = Config.getFont();
         
         this.setFont(font);
         this.setBackground(Config.getBaseBackground());
@@ -78,13 +78,13 @@ public class T5250Panel extends JPanel {
     }
 
     public int getCharWidth() {
-        FontMetrics metrics = getFontMetrics(font);
+        FontMetrics metrics = this.getFontMetrics(font);
         int charWidth = metrics.charWidth('W');
         return charWidth;
     }
 
     public int getCharHeight() {
-        FontMetrics metrics = getFontMetrics(font);
+        FontMetrics metrics = this.getFontMetrics(font);
         int charHeight = metrics.getHeight();
         return charHeight;
     }

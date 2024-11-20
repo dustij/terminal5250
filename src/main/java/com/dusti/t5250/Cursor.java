@@ -57,6 +57,12 @@ public class Cursor {
         return panel;
     }
 
+    public void moveToXY(int x, int y) {
+        int cellWidth = panel.getCharWidth();
+        int cellHeight = panel.getCharHeight();
+        moveTo(y / cellHeight, x / cellWidth);
+    }
+
     public void moveTo(int row, int col) {
         if (row >= 0 && row < screenBuffer.getRows() && col >= 0 && col < screenBuffer.getCols()) {
             this.row = row;
