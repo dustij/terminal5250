@@ -88,5 +88,22 @@ public class T5250Panel extends JPanel {
         }
     }
 
+    public ScreenBuffer getScreenBuffer() {
+        return screenBuffer;
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public int getCols() {
+        return cols;
+    }
+
+    public Font getFont() {
+        return font;
+    }
+
+    
     
 }

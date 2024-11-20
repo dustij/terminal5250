@@ -70,6 +70,22 @@ public class Cursor {
         moveTo(row + dRow, col + dCol);
     }
 
+    public void moveLeft() {
+        moveBy(0, -1);
+    }
+
+    public void moveRight() {
+        moveBy(0, 1);
+    }
+
+    public void moveUp() {
+        moveBy(-1, 0);
+    }
+
+    public void moveDown() {
+        moveBy(1, 0);
+    }
+
     public void render(Graphics g, FontMetrics fm, int cellWidth, int cellHieght) {
         if (!visible) return;
 

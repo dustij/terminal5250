@@ -21,11 +21,11 @@ public class T5250Frame extends JFrame {
         screenBuffer = new ScreenBuffer(24, 80);
         cursor = new Cursor(screenBuffer);
         panel = new T5250Panel(screenBuffer, cursor);
-        keyStroker = new KeyStroker(screenBuffer, cursor);
-        this.addKeyListener(keyStroker);
+        keyStroker = new KeyStroker(screenBuffer, cursor, panel);
         
         // Adjust minimum size
         Dimension panelMinSize = panel.getMinimumSize();
+        
         // Ensures insets are available
         this.pack();
         Insets insets = this.getInsets();

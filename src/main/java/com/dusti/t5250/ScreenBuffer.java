@@ -32,23 +32,24 @@ public class ScreenBuffer {
         LOGGER = MyLogger.getLogger(this.getClass().getName());
         clear();
 
+        // TODO: last row in the buffer is the message display, implement display proctected area message when typing in protected area
+
         // Testing, remove this later
-        insertField(new Field("Test", 15, 10), 4, 1);
-        insertField(new Field("Test", 15, 7), 5, 1);
-        insertField(new Field("Test", 18, 7), 6, 1);
-        insertField(new Field("Test", 18, 4), 7, 1);
-        insertField(new Field("Testing", 18, 4), 8, 1);
-        insertField(new Field("Testing", 18, 3), 9, 1);
-        insertField(new Field("Testing", 20, 3), 10, 1);
+        insertField(new Field("Test", 20, 10), 1, 1);
+        insertField(new Field("Testing", 20, 10), 2, 1);
     }
 
     public void insertField(Field field, int row, int col) {
         for (int i = 0; i < field.length(); i++) {
             screenBuffer[row][col+i] = field.getCharAt(i);
+            if (i >= field.inputStartPoint()) {
+                // Input area is unprotected
+                protectedArea[row][col+i] = false;
+            }
         }
     }
 
-    public void writeChar(int row, int col, Character c) throws IndexOutOfBoundsException {
+    public void writeChar(Character c, int row, int col) throws IndexOutOfBoundsException {
         if (row >= 0 && row < rows && col >= 0 & col < cols) {
             screenBuffer[row][col] = c;
         } else {
@@ -57,10 +58,10 @@ public class ScreenBuffer {
         }
     }
 
-    public void writeText(int row, int col, String text) {
+    public void writeText(String text, int row, int col) {
         for (int i = 0; i < text.length(); i++) {
             try {
-                writeChar(row, col + i, text.charAt(i));
+                writeChar(text.charAt(i), row, col + i);
             } catch (IndexOutOfBoundsException e) {
                 // Stop writing text if it goes off screen, prevents excessive logging
                 break;
@@ -68,10 +69,18 @@ public class ScreenBuffer {
         }
     }
 
+    public void clearCell(int row, int col) {
+        screenBuffer[row][col] = ' ';
+    }
+
     public void clear() {
         for (char[] row : screenBuffer) {
             Arrays.fill(row, ' ');
         }
+    }
+
+    public boolean isProtectedCell(int row, int col) {
+        return protectedArea[row][col];
     }
 
     public void entireScreenToProtected() {
