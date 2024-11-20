@@ -29,6 +29,7 @@ public class KeyStroker {
         actionMap.put("moveUp", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                screenBuffer.clearMessage();
                 cursor.moveUp();
             }
         });
@@ -38,6 +39,7 @@ public class KeyStroker {
         actionMap.put("moveDown", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                screenBuffer.clearMessage();
                 cursor.moveDown();
             }
         });
@@ -47,6 +49,7 @@ public class KeyStroker {
         actionMap.put("moveLeft", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                screenBuffer.clearMessage();
                 cursor.moveLeft();
             }
         });
@@ -56,6 +59,7 @@ public class KeyStroker {
         actionMap.put("moveRight", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                screenBuffer.clearMessage();
                 cursor.moveRight();
             }
         });
@@ -65,12 +69,13 @@ public class KeyStroker {
         actionMap.put("handleBackspace", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                screenBuffer.clearMessage();
                 int row = cursor.getRow();
                 int col = cursor.getCol() - 1;
                 if (col < 0)
                     return; // Do nothing if on the left edge
                 if (!screenBuffer.isProtectedCell(row, col)) {
-                    screenBuffer.writeChar(' ', row, col);
+                    screenBuffer.clearCell(row, col);
                     cursor.moveLeft();
                 }
             }
@@ -84,9 +89,12 @@ public class KeyStroker {
             actionMap.put(actionName, new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    screenBuffer.clearMessage();
                     if (!screenBuffer.isProtectedCell(cursor.getRow(), cursor.getCol())) {
                         screenBuffer.writeChar(ch, cursor.getRow(), cursor.getCol());
                         cursor.moveRight();
+                    } else {
+                        screenBuffer.messageProtectedArea();
                     }
                 }
             });

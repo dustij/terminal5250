@@ -24,7 +24,7 @@ public class T5250Panel extends JPanel {
         font = new Font(Font.MONOSPACED, Font.PLAIN, 26);
         
         this.setFont(font);
-        this.setBackground(Color.BLACK);
+        this.setBackground(Config.getBaseBackground());
         this.setPreferredSize(calcPreferredSize());
         this.setMinimumSize(calcPreferredSize());
     }
@@ -33,10 +33,10 @@ public class T5250Panel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        // Draw the buffer
+        // Draw the buffer (bottom up because issues drawing field underlines)
         FontMetrics metrics = getFontMetrics(font);
-        for (int row = 0; row < screenBuffer.getRows(); row++) {
-            for (int col = 0; col < screenBuffer.getCols(); col++) {
+        for (int row = screenBuffer.getRows() - 1; row >= 0; row--) {
+            for (int col = screenBuffer.getCols() - 1; col >= 0; col--) {
                 char ch = screenBuffer.getCharAt(row, col);
                 Color fg = screenBuffer.getForegroundColorAt(row, col);
                 Color bg = screenBuffer.getBackgroundColorAt(row, col);
@@ -49,7 +49,18 @@ public class T5250Panel extends JPanel {
 
                 // Draw character aligned to left of cell and baseline at bottom of cell
                 g.setColor(fg);
-                g.drawString(String.valueOf(ch), col * getCharWidth(), (row + 1) * getCharHeight() - metrics.getDescent());
+                g.drawString(String.valueOf(ch), x, (row + 1) * getCharHeight() - metrics.getDescent());
+
+                // Draw line under input field
+                if (!screenBuffer.isProtectedCell(row, col)) {
+                    g.setColor(Config.getInputUnderline());
+                    // Underline
+                    g.drawLine(x, y + getCharHeight(), x + getCharWidth(), y + getCharHeight());
+                    // Char ticks
+                    g.drawLine(x + getCharWidth(), y + getCharHeight(), x + getCharWidth(), y + getCharHeight() - 3);
+                    g.drawLine(x, y + getCharHeight(), x, y + getCharHeight() - 3);
+
+                }
             }
         }
 
@@ -59,7 +70,7 @@ public class T5250Panel extends JPanel {
         cursor.render(g, metrics, getCharWidth(), getCharHeight());
 
         // For testing purposes
-        drawGrid(g);
+        // drawGrid(g);
     }
 
     public Dimension calcPreferredSize() {

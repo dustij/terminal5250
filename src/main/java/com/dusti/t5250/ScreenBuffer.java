@@ -11,6 +11,7 @@ public class ScreenBuffer {
     private final boolean[][] protectedArea;
     private final Color[][] fgColor;
     private final Color[][] bgColor;
+    private boolean msgDisplayedFlag = false;
 
     private final Logger LOGGER;
 
@@ -45,8 +46,24 @@ public class ScreenBuffer {
             if (i >= field.inputStartPoint()) {
                 // Input area is unprotected
                 protectedArea[row][col+i] = false;
+                fgColor[row][col+i] = Config.getInputForeground();
             }
         }
+    }
+
+    public void displayMessage(String msg) {
+        msgDisplayedFlag = true;
+        writeText(msg, rows - 1, 1);
+    }
+
+    public void messageProtectedArea() {
+        displayMessage("Protected Area");
+    }
+
+    public void clearMessage() {
+        if (!msgDisplayedFlag) return;
+        Arrays.fill(screenBuffer[rows - 1], ' ');
+        msgDisplayedFlag = false;
     }
 
     public void writeChar(Character c, int row, int col) throws IndexOutOfBoundsException {
@@ -91,8 +108,12 @@ public class ScreenBuffer {
 
     public void setDefaultColors() {
         for (int row = 0; row < rows; row++) {
-            Arrays.fill(fgColor[row], Color.GREEN);
-            Arrays.fill(bgColor[row], Color.BLACK);
+            Arrays.fill(fgColor[row], Config.getBaseForeround());
+            Arrays.fill(bgColor[row], Config.getBaseBackground());
+            // Last row is message bar
+            if (row == rows - 1) {
+                Arrays.fill(fgColor[row], Config.getMessageForeground());
+            }
         }
     }
 

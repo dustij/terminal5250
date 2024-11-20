@@ -16,7 +16,7 @@ public class T5250Frame extends JFrame {
 
     public T5250Frame(String title) {
         super(title);
-        this.getContentPane().setBackground(Color.BLACK);
+        this.getContentPane().setBackground(Config.getBaseBackground());
         
         screenBuffer = new ScreenBuffer(24, 80);
         cursor = new Cursor(screenBuffer);
