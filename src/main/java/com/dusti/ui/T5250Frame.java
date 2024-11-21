@@ -28,7 +28,7 @@ public class T5250Frame extends JFrame {
         
         // Initialize ScreenManager and Panel
         this.screenManager = new ScreenManager();
-        this.panel = new T5250Panel(ScreenManager, theme);
+        this.panel = new T5250Panel(screenManager, theme);
 
         setupUI();
         setupKeyBindings();
@@ -54,7 +54,7 @@ public class T5250Frame extends JFrame {
         actionMap.put("moveUp", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ScreenManager.moveCursorUp();
+                screenManager.moveCursorUp();
             }
         });
 
@@ -63,7 +63,7 @@ public class T5250Frame extends JFrame {
         actionMap.put("moveDown", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                screenManager.moveCursorDown()
+                screenManager.moveCursorDown();
             }
         });
 
@@ -81,7 +81,7 @@ public class T5250Frame extends JFrame {
         actionMap.put("moveRight", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                screenManager.moveCursorRight()
+                screenManager.moveCursorRight();
             }
         });
 
