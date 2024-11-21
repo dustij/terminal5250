@@ -1,0 +1,13 @@
+# Colors
+baseForeground=#00FF00
+baseBackground=#000000
+inputForeground=#00FFFF
+inputBackground=#000000
+messageForeground=#FFFFFF
+messageBackground=#000000
+inputUnderline=#FFA500
+
+# Font
+fontName=Monospaced
+fontStyle=0
+fontSize=26
