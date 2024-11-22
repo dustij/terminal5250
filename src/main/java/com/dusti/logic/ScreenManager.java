@@ -8,6 +8,7 @@ import com.dusti.config.Theme;
 import com.dusti.core.LoggerFactory;
 import com.dusti.models.Screen;
 import com.dusti.ui.Renderer;
+import com.dusti.util.ScreenLoader;
 
 public class ScreenManager {
     private static final Logger logger = LoggerFactory.getLogger(ScreenManager.class.getName());
@@ -16,7 +17,7 @@ public class ScreenManager {
     private final Theme theme;
     private Screen activeScreen;
 
-    private final Map<String, Screen> screens;
+    private Map<String, Screen> screens;
 
     public ScreenManager() {
         this.theme = new Theme();
@@ -27,13 +28,21 @@ public class ScreenManager {
     }
 
     private void initializeScreens() {
-        // Load screens from JSON
-
-        // TODO make screens
+        var screenLoader = new ScreenLoader("json");
+        screens = screenLoader.getScreens();
+        validateScreens(screens);
     }
 
-    public void addScreen(String name, Screen screen) {
-        this.screens.put(name, screen);
+    private void validateScreens(Map<String, Screen> screens) {
+        // Makes sure each screen can fit within the buffer bounds
+        for (Screen screen : screens.values()) {
+            validateScreen(screen);
+        }
+    }
+
+    private void validateScreen(Screen screen) {
+        // This screen should fit within the buffer
+        throw new UnsupportedOperationException("Unimplemented method 'validateScreen'"); 
     }
 
     public void setActiveScreen(String name) {

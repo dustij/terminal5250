@@ -4,15 +4,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
-import com.dusti.util.MyLogger;
 
 public class LoggerFactory {
         private static boolean isInitialized = false;
-    private static final Logger LOGGER = Logger.getLogger(MyLogger.class.getName());
-
-    private LoggerFactory() {
-        // Should not be instantiated
-    }
+    private static final Logger LOGGER = Logger.getLogger(LoggerFactory.class.getName());
 
     public static Logger getLogger(String name) {
         if (!isInitialized) {
@@ -23,7 +18,7 @@ public class LoggerFactory {
     } 
 
     private static void inititalize() {
-        try (InputStream configFile = MyLogger.class.getResourceAsStream("/logging")) {
+        try (InputStream configFile = LoggerFactory.class.getResourceAsStream("/logging")) {
             if (configFile != null) {
                 LogManager.getLogManager().readConfiguration(configFile);
             } else {
