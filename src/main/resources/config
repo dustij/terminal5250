@@ -1,11 +1,28 @@
 # Colors
-baseForeground=#00FF00
-baseBackground=#000000
-inputForeground=#00FFFF
-inputBackground=#000000
-messageForeground=#FFFFFF
-messageBackground=#000000
-inputUnderline=#FFA500
+blue=0x7890f0
+brown=0x492400
+darkBlue=0x000080
+darkGreen=0x008000
+darkCyan=0x008080
+green=0x00ff00
+gray=0x00c0c0
+mustard=0xa0a000
+orange=0xffa200
+pink=0xff00ff
+red=0xf0000
+cyan=0x00ffff
+white=0xffffff
+yellow=0xffff00
+
+field=green
+input=cyan
+statusIndicators=blue
+informationIndicators=white
+attentionIndicators=yellow
+errorIndicators=red
+screenBackground=black
+columnSeparator=white
+
 
 # Font
 fontName=Monospaced

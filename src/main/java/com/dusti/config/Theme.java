@@ -4,45 +4,50 @@ import java.awt.Color;
 import java.awt.Font;
 
 public class Theme {
-    private final ConfigLoader configLoader;
+    private final ConfigLoader config;
+    private final Font font; 
 
     public Theme() {
-        this.configLoader = ConfigLoader.getInstance();
+        this.config = ConfigLoader.getInstance();
+        String fontName = config.getProperty("fontName", "Monospaced");
+        int fontStyle = config.getIntProperty("fontStyle", Font.PLAIN);
+        int fontSize = config.getIntProperty("fontSize", 26);
+        this.font = new Font(fontName, fontStyle, fontSize);
     }
 
     public Font getFont() {
-        String fontName = configLoader.getProperty("fontName", "Monospaced");
-        int fontStyle = configLoader.getIntProperty("fontStyle", Font.PLAIN);
-        int fontSize = configLoader.getIntProperty("fontSize", 26);
-        return new Font(fontName, fontStyle, fontSize);
+        return font;
     }
 
-    public Color getBaseForeground() {
-        return configLoader.getColorProperty("baseForeground", Color.GREEN);
+    public Color getFieldColor() {
+        return config.getColorProperty("field", Color.WHITE);
     }
 
-    public Color getBaseBackground() {
-        return configLoader.getColorProperty("baseBackground", Color.BLACK);
+    public Color getInputColor() {
+        return config.getColorProperty("input", Color.WHITE);
     }
 
-    public Color getInputForeground() {
-        return configLoader.getColorProperty("inputForeground", Color.CYAN);
+    public Color getStatusIndicatorsColor() {
+        return config.getColorProperty("statusIndicators", Color.WHITE);
     }
 
-    public Color getInputBackground() {
-        return configLoader.getColorProperty("inputBackground", Color.BLACK);
+    public Color getInformationIndicatorsColor() {
+        return config.getColorProperty("informationIndicators", Color.WHITE);
     }
 
-    public Color getMessageForeground() {
-        return configLoader.getColorProperty("messageForeground", Color.WHITE);
+    public Color getAttentionIndicatorsColor() {
+        return config.getColorProperty("attentionIndicators", Color.WHITE);
     }
 
-    public Color getMessageBackground() {
-        return configLoader.getColorProperty("messageBackground", Color.BLACK);
+    public Color getErrorIndicatorsColor() {
+        return config.getColorProperty("errorIndicators", Color.WHITE);
     }
 
-    public Color getInputUnderline() {
-        return configLoader.getColorProperty("inputUnderline", Color.ORANGE);
+    public Color getScreenBackgroundColor() {
+        return config.getColorProperty("screenBackground", Color.WHITE);
     }
 
+    public Color getColumnSeparatorColor() {
+        return config.getColorProperty("columnSeparator", Color.WHITE);
+    }
 }

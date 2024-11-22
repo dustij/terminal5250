@@ -17,7 +17,7 @@ public class T5250Panel extends JPanel{
 
         // Apply theme
         this.setFont(theme.getFont());
-        this.setBackground(theme.getBaseBackground());
+        this.setBackground(theme.getScreenBackgroundColor());
         this.setPreferredSize(screenManager.getScreenSize());
     }
 

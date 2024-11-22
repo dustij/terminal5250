@@ -24,7 +24,7 @@ public class T5250Frame extends JFrame {
         Theme theme = new Theme();
 
         // Apply theme to frame
-        this.getContentPane().setBackground(theme.getBaseBackground());
+        this.getContentPane().setBackground(theme.getScreenBackgroundColor());
         
         // Initialize ScreenManager and Panel
         this.screenManager = new ScreenManager();

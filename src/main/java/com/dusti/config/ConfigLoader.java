@@ -46,7 +46,8 @@ public class ConfigLoader {
         String value = properties.getProperty(key);
         if (value != null) {
             try {
-                return Color.decode(value);
+                String hexCode = properties.getProperty(value);
+                return Color.decode(hexCode);
             } catch (NumberFormatException e) {
                 logger.warning(String.format("Invalid color format for %s: %s", key, value));
             }
