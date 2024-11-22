@@ -56,20 +56,15 @@ public class Field implements CellListener{
 
     @Override
     public void onCellChanged(Cell cell) {
+        int relativeIndex = cell.gePosition().getCol() - inputPosition.getCol();
         StringBuilder sb = new StringBuilder(inputData);
-        // If cell col is greater than input data then everything before it is unchanged, thus " "
-        if (cell.gePosition().getCol() > inputPosition.getCol() + sb.length()) {
-            sb.append(" ".repeat(cell.gePosition().getCol() - inputPosition.getCol() + sb.length()));
-            sb.append(cell.getValue());
+        while (sb.length() <= relativeIndex) {
+            sb.append(" ");
         }
-        // If cell col is the same as input data then append
-        else if (cell.gePosition().getCol() == inputPosition.getCol() + sb.length()) {
-            sb.append(cell.getValue());
-        }
-        // If cell col is less than input data then replace char at that location
-        else if (cell.gePosition().getCol() < inputPosition.getCol() + sb.length()) {
-            sb.setCharAt(inputPosition.getCol() + sb.length() - cell.gePosition().getCol(), cell.getValue());
-        }
+
+        sb.setCharAt(relativeIndex, cell.getValue());
+        inputData = sb.toString();
+        
     }
     
 }

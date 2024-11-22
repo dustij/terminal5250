@@ -1,8 +1,7 @@
 package com.dusti.logic;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
+import javax.swing.JComponent;
 import com.dusti.config.Theme;
 import com.dusti.models.Cell;
 import com.dusti.models.Field;
@@ -80,5 +79,18 @@ public class ScreenBuffer {
 
     public Cell[][] getBuffer() {
         return buffer;
+    }
+
+    public void moveCursor(int i, int j) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'moveCursor'");
+    }
+
+    public int getCols() {
+        return cols;
+    }
+
+    public int getRows() {
+        return rows;
     }
 }

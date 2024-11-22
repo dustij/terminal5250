@@ -1,7 +1,6 @@
 package com.dusti.ui;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 import com.dusti.config.Theme;
@@ -34,11 +33,14 @@ public class T5250Panel extends JPanel{
     private void drawGrid(Graphics g) {
         // For debugging purposes
         g.setColor(Color.GRAY);
-        Dimension size = this.getSize();
-        for (int row = 0; row < size.height; row += screenManager.getCharHeight()) {
-            for (int col = 0; col < size.width; col += screenManager.getCharWidth()) {
-                g.drawRect(col, row, screenManager.getCharWidth(), screenManager.getCharHeight());
+        var size = this.getSize();
+        var screen = screenManager.getActiveScreen();
+        for (int row = 0; row < size.height; row += screen.getCharHeight()) {
+            for (int col = 0; col < size.width; col += screen.getCharWidth()) {
+                g.drawRect(col, row, screen.getCharWidth(), screen.getCharHeight());
             }
         }
     }
+
+
 }

@@ -107,7 +107,7 @@ public class T5250Frame extends JFrame {
         actionMap.put("handleBackspace", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ScreenManager.handleBackspacePressed();
+                screenManager.handleBackspacePressed();
             }
         });
 

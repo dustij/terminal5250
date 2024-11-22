@@ -22,6 +22,14 @@ public class ScreenManager {
         this.theme = new Theme();
         this.screenBuffer = new ScreenBuffer(24, 80, theme);
         this.screens = new HashMap<>();
+        initializeScreens();
+        setActiveScreen("mainMenu");
+    }
+
+    private void initializeScreens() {
+        // Load screens from JSON
+
+        // TODO make screens
     }
 
     public void addScreen(String name, Screen screen) {
@@ -67,11 +75,36 @@ public class ScreenManager {
     }
 
     public Dimension getScreenSize() {
-        return new Dimension(screenBuffer.getCols() * screenBuffer.getCharWidth(),
-                             screenBuffer.getRows() * screenBuffer.getCharHeight());
+        return new Dimension(screenBuffer.getCols() * activeScreen.getCharWidth(),
+                             screenBuffer.getRows() * activeScreen.getCharHeight());
     }
 
     public Renderer getRenderer() {
         return screenBuffer.getRenderer();
+    }
+
+    public void handleTabPressed() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'handleTabPressed'");
+    }
+
+    public void handleShftTabPressed() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'handleShftTabPressed'");
+    }
+    
+    public void handleBackspacePressed() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'handleBackspacePressed'");
+    }
+
+    public void handleDeletePressed() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'handleDeletePressed'");
+    }
+
+    public void handleCharPressed(char ch) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'handleCharPressed'");
     }
 }

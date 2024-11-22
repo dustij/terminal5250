@@ -13,6 +13,7 @@ red=0xf0000
 cyan=0x00ffff
 white=0xffffff
 yellow=0xffff00
+black=0x000000
 
 field=green
 input=cyan
