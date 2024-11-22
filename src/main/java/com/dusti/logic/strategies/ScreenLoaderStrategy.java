@@ -2,7 +2,6 @@ package com.dusti.logic.strategies;
 
 import java.nio.file.Path;
 import java.util.List;
-import java.util.Map;
 import com.dusti.models.Screen;
 
 public abstract class ScreenLoaderStrategy {
