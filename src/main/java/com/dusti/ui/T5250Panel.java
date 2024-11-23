@@ -26,7 +26,7 @@ public class T5250Panel extends JPanel{
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.setFont(theme.getFont());
-        screenManager.getRenderer().renderScreen(g);
+        screenManager.getRenderer().renderScreen(g);  // TODO: implement renderScreen
         
         // Optionally draw a grid for debugging
         // drawGrid(g);

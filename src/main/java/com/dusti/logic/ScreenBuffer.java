@@ -1,7 +1,6 @@
 package com.dusti.logic;
 
 import java.awt.Color;
-import javax.swing.JComponent;
 import com.dusti.config.Theme;
 import com.dusti.models.Cell;
 import com.dusti.models.Field;
