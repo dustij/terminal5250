@@ -38,7 +38,7 @@ public class ScreenLoader {
             String fileName = file.getFileName().toString();
             int indexOfExtension = fileName.lastIndexOf(".");
             fileName = indexOfExtension == -1 ? fileName : fileName.substring(0, indexOfExtension);
-            logger.info("Loading " + fileName);
+            logger.info("Loading " + fileName + "." + strategy);
 
             var screen = getStrategy().loadScreen(fileName);
             screens.put(screen.getName(), screen);

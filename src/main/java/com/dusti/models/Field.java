@@ -8,7 +8,6 @@ public class Field implements CellListener{
     private final int inputLength;
     private final int totalLength;
     private final Position position;
-    private final Position inputPosition;
     private String inputData;
 
     public Field(String name, String label, int totalLength, int inputLength, Position position) {
@@ -17,8 +16,6 @@ public class Field implements CellListener{
         this.totalLength = totalLength;
         this.inputLength = inputLength;
         this.position = position;
-        this.inputPosition = new Position(position.getRow(), position.getCol() + totalLength - inputLength);
-        this.inputData = " ";
     }
 
     public String getLabel() {
@@ -33,17 +30,20 @@ public class Field implements CellListener{
         return inputLength;
     }
 
-
     public int length() {
         return totalLength;
     }
 
     public Position getInputPosition() {
-        return inputPosition;
+        return new Position(position.getRow(), position.getCol() + totalLength - inputLength);
     }
 
-    public Position getPosition() {
+    public Position getStartPosition() {
         return position;
+    }
+
+    public Position getEndPosition() {
+        return new Position(position.getRow(), position.getCol() + totalLength);
     }
 
     public String getInputData() {
@@ -51,12 +51,13 @@ public class Field implements CellListener{
     }
 
     public char getCharAt(int i) {
+        if (inputData == null) inputData = "";
         return i < inputData.length() ? inputData.charAt(i) : ' ';
     }
 
     @Override
     public void onCellChanged(Cell cell) {
-        int relativeIndex = cell.gePosition().getCol() - inputPosition.getCol();
+        int relativeIndex = cell.gePosition().getCol() - getInputPosition().getCol();
         StringBuilder sb = new StringBuilder(inputData);
         while (sb.length() <= relativeIndex) {
             sb.append(" ");

@@ -36,7 +36,7 @@ public class JsonScreenLoaderStrategy extends ScreenLoaderStrategy {
             Gson gson = new Gson();
             return gson.fromJson(reader, Screen.class);
         } catch (Exception e) {
-            throw new RuntimeException("Could not load from JSON");
+            throw new RuntimeException("Could not load from JSON -> ", e);
         }
     }
     

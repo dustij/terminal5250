@@ -1,10 +1,12 @@
 package com.dusti.ui;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 import com.dusti.config.Theme;
 import com.dusti.logic.ScreenManager;
+import com.dusti.util.HelperMethods;
 
 public class T5250Panel extends JPanel{
     private final ScreenManager screenManager;
@@ -17,7 +19,7 @@ public class T5250Panel extends JPanel{
         // Apply theme
         this.setFont(theme.getFont());
         this.setBackground(theme.getScreenBackgroundColor());
-        this.setPreferredSize(screenManager.getScreenSize());
+        this.setPreferredSize(getScreenSize());
     }
 
     @Override
@@ -30,14 +32,19 @@ public class T5250Panel extends JPanel{
         // drawGrid(g);
     }
 
+    public Dimension getScreenSize() {
+        var screenBuffer = screenManager.getScreenBuffer();
+        return new Dimension(screenBuffer.getCols() * HelperMethods.getCharWidth(this),
+                             screenBuffer.getRows() * HelperMethods.getCharHeight(this));
+    }
+
     private void drawGrid(Graphics g) {
         // For debugging purposes
         g.setColor(Color.GRAY);
         var size = this.getSize();
-        var screen = screenManager.getActiveScreen();
-        for (int row = 0; row < size.height; row += screen.getCharHeight()) {
-            for (int col = 0; col < size.width; col += screen.getCharWidth()) {
-                g.drawRect(col, row, screen.getCharWidth(), screen.getCharHeight());
+        for (int row = 0; row < size.height; row += HelperMethods.getCharHeight(this)) {
+            for (int col = 0; col < size.width; col += HelperMethods.getCharWidth(this)) {
+                g.drawRect(col, row, HelperMethods.getCharWidth(this), HelperMethods.getCharHeight(this));
             }
         }
     }

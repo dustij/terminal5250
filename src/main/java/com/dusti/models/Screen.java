@@ -1,35 +1,20 @@
 package com.dusti.models;
 
-import javax.swing.JPanel;
-import com.dusti.config.Theme;
-
-public class Screen extends JPanel {
+public class Screen{
     private final String name;
+    private final Field[] fields;
 
-    public Screen(String name) {
+    public Screen(String name, Field[] fields) {
         this.name = name;
+        this.fields = fields;
     }
 
     public Field[] getFields() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getFields'");
-    }
-
-    public int getCharWidth() {
-        var theme = new Theme();
-        var metrics = this.getFontMetrics(theme.getFont());
-        var charWidth = metrics.charWidth('W');
-        return charWidth;
-    }
-
-    public int getCharHeight() {
-        var theme = new Theme();
-        var metrics = this.getFontMetrics(theme.getFont());
-        var charHeight = metrics.getHeight();
-        return charHeight;
+        return fields;
     }
 
     public String getName() {
         return name;
     }
+
 }

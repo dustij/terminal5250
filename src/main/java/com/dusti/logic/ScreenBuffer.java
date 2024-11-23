@@ -55,7 +55,7 @@ public class ScreenBuffer {
     }
 
     public void insertField(Field field) {
-        var position = field.getPosition();
+        var position = field.getStartPosition();
         var row = position.getRow();
         var col = position.getCol();
 

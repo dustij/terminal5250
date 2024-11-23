@@ -1,0 +1,15 @@
+{
+    "name": "mainScreen",
+    "fields": [
+        {
+            "name": "selection",
+            "label": "==>",
+            "inputLength": 5,
+            "totalLength": 8,
+            "position": {
+                "row": 22,
+                "col": 1
+            }
+        }
+    ]
+}

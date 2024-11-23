@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 import com.dusti.config.Theme;
 import com.dusti.core.LoggerFactory;
+import com.dusti.models.Field;
 import com.dusti.models.Screen;
 import com.dusti.ui.Renderer;
 import com.dusti.util.ScreenLoader;
@@ -24,7 +25,7 @@ public class ScreenManager {
         this.screenBuffer = new ScreenBuffer(24, 80, theme);
         this.screens = new HashMap<>();
         initializeScreens();
-        setActiveScreen("mainMenu");
+        setActiveScreen("mainScreen");
     }
 
     private void initializeScreens() {
@@ -36,13 +37,25 @@ public class ScreenManager {
     private void validateScreens(Map<String, Screen> screens) {
         // Makes sure each screen can fit within the buffer bounds
         for (Screen screen : screens.values()) {
-            validateScreen(screen);
+            if (!validateScreen(screen)) {
+                String msg = String.format("Screen '%s' does not fit inside buffer.", screen.getName());
+                logger.severe(msg);
+                throw new IllegalArgumentException(msg);
+            }
         }
     }
 
-    private void validateScreen(Screen screen) {
-        // This screen should fit within the buffer
-        throw new UnsupportedOperationException("Unimplemented method 'validateScreen'"); 
+    private boolean validateScreen(Screen screen) {
+        // This screen's fields should fit within the buffer
+        var bufferRows = screenBuffer.getRows();
+        var bufferCols = screenBuffer.getCols();
+        for (Field field : screen.getFields()) {
+            if (field.getStartPosition().getRow() < 0) return false;
+            if (field.getStartPosition().getCol() < 0) return false;
+            if (field.getEndPosition().getRow() > bufferRows) return false;
+            if (field.getEndPosition().getCol() > bufferCols) return false;
+        }
+        return true;
     }
 
     public void setActiveScreen(String name) {
@@ -81,11 +94,6 @@ public class ScreenManager {
 
     public void moveCursorRight() {
         screenBuffer.moveCursor(0, 1);
-    }
-
-    public Dimension getScreenSize() {
-        return new Dimension(screenBuffer.getCols() * activeScreen.getCharWidth(),
-                             screenBuffer.getRows() * activeScreen.getCharHeight());
     }
 
     public Renderer getRenderer() {

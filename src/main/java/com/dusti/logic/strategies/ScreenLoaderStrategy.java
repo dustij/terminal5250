@@ -5,17 +5,11 @@ import java.util.List;
 import com.dusti.models.Screen;
 
 public abstract class ScreenLoaderStrategy {
-    private List<Path> files;
-
-    protected ScreenLoaderStrategy() {
-        this.files = gatherFiles();
+    public List<Path> getFiles() {
+        return gatherFiles();
     }
 
     protected abstract List<Path> gatherFiles();
-
     public abstract Screen loadScreen(String filename);
 
-    public List<Path> getFiles() {
-        return files;
-    }
 }
