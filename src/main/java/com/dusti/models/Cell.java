@@ -26,7 +26,7 @@ public class Cell {
         }
     }
 
-    public Position gePosition() {
+    public Position getPosition() {
         return position;
     }
 

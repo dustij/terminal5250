@@ -9,7 +9,6 @@ import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.KeyStroke;
-import com.dusti.config.ConfigLoader;
 import com.dusti.config.Theme;
 import com.dusti.logic.ScreenManager;
 

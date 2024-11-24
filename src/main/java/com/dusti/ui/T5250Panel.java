@@ -16,6 +16,9 @@ public class T5250Panel extends JPanel{
         this.screenManager = screenManager;
         this.theme = theme;
 
+        // Initialize HelperMethods to use this panel
+        HelperMethods.initialize(this);
+
         // Apply theme
         this.setFont(theme.getFont());
         this.setBackground(theme.getScreenBackgroundColor());
@@ -34,17 +37,19 @@ public class T5250Panel extends JPanel{
 
     public Dimension getScreenSize() {
         var screenBuffer = screenManager.getScreenBuffer();
-        return new Dimension(screenBuffer.getCols() * HelperMethods.getCharWidth(this),
-                             screenBuffer.getRows() * HelperMethods.getCharHeight(this));
+        return new Dimension(screenBuffer.getCols() * HelperMethods.getInstance().getCharWidth(),
+                             screenBuffer.getRows() * HelperMethods.getInstance().getCharHeight());
     }
 
     private void drawGrid(Graphics g) {
         // For debugging purposes
         g.setColor(Color.GRAY);
         var size = this.getSize();
-        for (int row = 0; row < size.height; row += HelperMethods.getCharHeight(this)) {
-            for (int col = 0; col < size.width; col += HelperMethods.getCharWidth(this)) {
-                g.drawRect(col, row, HelperMethods.getCharWidth(this), HelperMethods.getCharHeight(this));
+        var charHeight = HelperMethods.getInstance().getCharHeight();
+        var charWidth = HelperMethods.getInstance().getCharWidth();
+        for (int row = 0; row < size.height; row += charHeight) {
+            for (int col = 0; col < size.width; col += charWidth) {
+                g.drawRect(col, row, charWidth, charHeight);
             }
         }
     }

@@ -57,7 +57,7 @@ public class Field implements CellListener{
 
     @Override
     public void onCellChanged(Cell cell) {
-        int relativeIndex = cell.gePosition().getCol() - getInputPosition().getCol();
+        int relativeIndex = cell.getPosition().getCol() - getInputPosition().getCol();
         StringBuilder sb = new StringBuilder(inputData);
         while (sb.length() <= relativeIndex) {
             sb.append(" ");

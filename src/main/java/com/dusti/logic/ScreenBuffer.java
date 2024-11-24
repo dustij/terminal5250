@@ -68,7 +68,7 @@ public class ScreenBuffer {
             }
 
             // Set initial value (useful for fields that edit existing data)
-            cell.setValue(field.getCharAt(i)); 
+            cell.setValue(field.getCharAt(i));                                      // TODO: not getting field data correctly, work on implementation
         }
     }
     
@@ -91,5 +91,25 @@ public class ScreenBuffer {
 
     public int getRows() {
         return rows;
+    }
+
+    public char getCharAt(int row, int col) {
+        return buffer[row][col].getValue();
+    }
+
+    public void setCharAt(char value, int row, int col) {
+        getCellAt(row, col).setValue(value);
+    }
+
+    public Cell getCellAt(int row, int col) {
+        return buffer[row][col];
+    }
+
+    public Color getForegroundColorAt(int row, int col) {
+        return fgColors[row][col];
+    }
+
+    public Color getBackgroundColorAt(int row, int col) {
+        return bgColors[row][col];
     }
 }
