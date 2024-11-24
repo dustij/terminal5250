@@ -20,6 +20,10 @@ public class Cell {
     }
 
     public void setValue(char value) {
+        this.value = value;
+    }
+
+    public void changeValue(char value) {
         if (this.value != value) {
             this.value = value;
             notifyListeners();

@@ -16,6 +16,7 @@ public class Field implements CellListener{
         this.totalLength = totalLength;
         this.inputLength = inputLength;
         this.position = position;
+        this.inputData = " ".repeat(inputLength);
     }
 
     public String getLabel() {
@@ -50,9 +51,21 @@ public class Field implements CellListener{
         return inputData;
     }
 
+    public char getInputCharAt(int i) {
+        return i < inputData.length() - 1 ? inputData.charAt(i) : ' ';
+    }
+
     public char getCharAt(int i) {
-        if (inputData == null) inputData = "";
-        return i < inputData.length() ? inputData.charAt(i) : ' ';
+        // Alternate " " and "."
+        var spacer = "";
+        var spaceBetween = totalLength - inputLength - label.length();
+        for (int j = 0; j < spaceBetween; j++) {
+            if (j % 2 == 0) spacer += " ";
+            if (j % 2 == 1) spacer += ".";
+        }
+        var displayed = label + spacer + inputData;
+        System.out.println("displayed: -->'"+displayed+"'<-- totalLength="+totalLength);
+        return i < totalLength - 1 ? displayed.charAt(i) : ' ';
     }
 
     @Override

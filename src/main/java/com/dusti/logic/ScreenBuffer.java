@@ -60,6 +60,7 @@ public class ScreenBuffer {
 
         for (int i = 0; i < field.length(); i++) {
             var cell = buffer[row][col + i];
+            cell.setValue(field.getCharAt(i));
 
             if (col + i >= field.getInputPosition().getCol()) {
                 protectedCells[row][col + i] = false;
@@ -67,8 +68,6 @@ public class ScreenBuffer {
                 cell.addListener(field);
             }
 
-            // Set initial value (useful for fields that edit existing data)
-            cell.setValue(field.getCharAt(i));                                      // TODO: not getting field data correctly, work on implementation
         }
     }
     
@@ -98,7 +97,7 @@ public class ScreenBuffer {
     }
 
     public void setCharAt(char value, int row, int col) {
-        getCellAt(row, col).setValue(value);
+        getCellAt(row, col).changeValue(value);
     }
 
     public Cell getCellAt(int row, int col) {

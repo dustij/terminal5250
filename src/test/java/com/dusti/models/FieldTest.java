@@ -27,7 +27,7 @@ public class FieldTest {
         cell.addListener(field);
 
         // Act
-        cell.setValue('B');
+        cell.changeValue('B');
 
         // Assert
         assertEquals("B", field.getInputData());
@@ -45,7 +45,7 @@ public class FieldTest {
         cell.addListener(field);
 
         // Act
-        cell.setValue('C');
+        cell.changeValue('C');
 
         // Assert
         assertEquals("C", field.getInputData());
@@ -62,7 +62,7 @@ public class FieldTest {
         cell.addListener(field);
 
         // Act
-        cell.setValue('B');
+        cell.changeValue('B');
 
         // Assert
         assertEquals("  B", field.getInputData());
@@ -80,7 +80,7 @@ public class FieldTest {
         cell.addListener(field);
 
         // Act
-        cell.setValue('B');
+        cell.changeValue('B');
 
         // Assert
         assertEquals("AB", field.getInputData());
