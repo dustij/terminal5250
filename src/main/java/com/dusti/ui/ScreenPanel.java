@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 import com.dusti.config.Theme;
 import com.dusti.core.ScreenBuffer;
+import com.dusti.core.ScreenManager;
 import com.dusti.events.BufferEvent;
 import com.dusti.interfaces.BufferChangeListener;
 

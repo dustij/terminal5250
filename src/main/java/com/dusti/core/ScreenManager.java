@@ -6,21 +6,32 @@ import java.util.logging.Logger;
 import com.dusti.models.ScreenModel;
 
 public class ScreenManager {
-    private static final Logger logger = LoggerFactory.getLogger(ScreenManager.class.getName());
-    private static Map<String, ScreenModel> screens;
-    private static ScreenModel activeScreen;
-    private static boolean isInitialized = false;
+    private final Logger logger = LoggerFactory.getLogger(ScreenManager.class.getName());
+    private Map<String, ScreenModel> screens;
+    private ScreenModel activeScreen;
+    private ScreenBuffer screenBuffer;
 
-    public static void initialize() {
-        screens = new HashMap<>();
-        activeScreen = screens.get("home");
-        isInitialized = true;
+    public ScreenManager(ScreenBuffer screenBuffer) {
+        this.screenBuffer = screenBuffer;
+
+        initScreens();
+        setBufferFromModel();
+
         logger.info("Screen Manager initialized successfully.");
     }
 
-    public ScreenModel getActiveScreen() {
-        if (isInitialized) return activeScreen;
-        logger.warning("Screen Manager has not be initialized. No active screen to retrieve.");
-        return null;
+    private void initScreens() {
+        // TODO: implement resource loader using strategy (JSON, XML, etc.)
+        screens = new HashMap<>();
+        activeScreen = screens.get("home");
     }
+
+    private void setBufferFromModel() {
+        if (activeScreen == null)
+            return;
+        Character[][] screen2DArray = new Character[27][80]; // TODO: replace this with array from screen model data
+        screenBuffer.replaceBuffer(screen2DArray);
+    }
+
+
 }

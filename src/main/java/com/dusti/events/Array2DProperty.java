@@ -2,14 +2,24 @@ package com.dusti.events;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 import com.dusti.interfaces.BufferChangeListener;
 
 public class Array2DProperty<T> {
     private final List<BufferChangeListener<T>> listeners = new ArrayList<>();
     private final T[][] array2D;
 
-    public Array2DProperty(int rows, int cols) {
-        this.array2D = (T[][]) new Object[rows][cols];
+    public Array2DProperty(int rows, int cols, Supplier<T[][]> arraySupplier) {
+        this.array2D = arraySupplier.get();
+        if (array2D.length != rows || array2D[0].length != cols) {
+            throw new IllegalArgumentException("Array dimensions must match rows and cols");
+        }
+    }
+
+    public void dispatchNewBufferArrayEvent() {
+        for (BufferChangeListener<T> listener : listeners) {
+            listener.onBufferChange(new BufferEvent<>(-1, -1, null, null));
+        }
     }
 
     public void addListener(BufferChangeListener<T> listener) {
@@ -42,5 +52,9 @@ public class Array2DProperty<T> {
 
     public int getColCount() {
         return array2D[0].length;
+    }
+
+    public List<BufferChangeListener<T>> getListeners() {
+        return listeners;
     }
 }

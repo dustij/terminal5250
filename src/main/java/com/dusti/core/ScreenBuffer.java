@@ -4,7 +4,7 @@ import com.dusti.events.Array2DCharProperty;
 import com.dusti.interfaces.BufferChangeListener;
 
 public class ScreenBuffer {
-    private final Array2DCharProperty buffer;
+    private Array2DCharProperty buffer;
     private final int rows;
     private final int cols;
 
@@ -21,6 +21,16 @@ public class ScreenBuffer {
                 buffer.setValueAt(row, col, ' ');
             }
         }
+    }
+
+    public void replaceBuffer(Character[][] array2D) {
+        // Add all previous listeners to this new buffer
+        var listeners = buffer.getListeners();
+        buffer = new Array2DCharProperty(array2D);
+        for (var listener : listeners) {
+            buffer.addListener(listener);
+        }
+        buffer.dispatchNewBufferArrayEvent();
     }
 
     public void addListener(BufferChangeListener<Character> listener) {
