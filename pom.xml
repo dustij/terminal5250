@@ -46,7 +46,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.0.0</version>
                 <configuration>
-                    <mainClass>com.dusti.core.Main</mainClass>
+                    <mainClass>com.dusti.Main</mainClass>
                 </configuration>
             </plugin>
             <plugin>
