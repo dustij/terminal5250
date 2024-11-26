@@ -1,9 +1,10 @@
-package com.dusti.ui;
+package com.dusti.views;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import com.dusti.core.ScreenBuffer;
 import com.dusti.events.BufferEvent;
+import com.dusti.views.ScreenView;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -11,16 +12,16 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-public class ScreenPanelTest {
+public class ScreenViewTest {
     private ScreenBuffer screenBuffer;
-    private ScreenPanel screenPanel;
+    private ScreenView screenPanel;
 
     @BeforeEach
     public void setup() {
         screenBuffer = mock(ScreenBuffer.class);
         when(screenBuffer.getRows()).thenReturn(3);
         when(screenBuffer.getCols()).thenReturn(3);
-        screenPanel = new ScreenPanel(screenBuffer);
+        screenPanel = new ScreenView(screenBuffer);
     }
 
     @Test
@@ -53,7 +54,7 @@ public class ScreenPanelTest {
     public void testOnBufferChange() {
         // Use a real ScreenBuffer instance
         screenBuffer = new ScreenBuffer(3, 3);
-        screenPanel = spy(new ScreenPanel(screenBuffer));
+        screenPanel = spy(new ScreenView(screenBuffer));
 
         // Add screenPanel as a listener to screenBuffer
         screenBuffer.addListener(screenPanel);

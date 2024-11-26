@@ -66,7 +66,7 @@ public class BufferEventTest {
         BufferChangeListener<Character> listener = receivedEvents::add;
         array2dCharProperty.addListener(listener);
 
-        array2dCharProperty.dispatchNewBufferArrayEvent();
+        array2dCharProperty.dispatchUpdateEvent();
         
         assertEquals(1, receivedEvents.size());
         BufferEvent<Character> event = receivedEvents.get(0);

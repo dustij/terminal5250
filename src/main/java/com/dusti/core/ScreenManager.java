@@ -16,7 +16,6 @@ public class ScreenManager {
         this.screenBuffer = screenBuffer;
 
         initScreens();
-        setBufferFromModel();
 
         logger.info("Screen Manager initialized successfully.");
     }
@@ -24,28 +23,12 @@ public class ScreenManager {
     private void initScreens() {
         // TODO: implement resource loader using strategy design (JSON, XML, etc.)
         screens = new HashMap<>();
-        activeScreen = screens.get("home");
-        setBufferFromModel();
-    }
-
-    private void setBufferFromModel() {
-        // TODO: remove this, only for testing
-        Character[][] screen2DArray = new Character[27][80]; 
-        activeScreen = new ScreenModel(); // to avoid null pointer while testing
-        for (int i = 0; i < 27; i++) {
-            Arrays.fill(screen2DArray[i], 'A');
-        }
-
-        if (activeScreen == null)
-            return;
-
-
-        screenBuffer.replaceBuffer(screen2DArray);
+        setActiveScreen("home");
     }
 
     public void setActiveScreen(String name) {
         activeScreen = screens.get(name);
-        setBufferFromModel();
+        screenBuffer.updateFromModel(activeScreen);
     }
 
     public Map<String, ScreenModel> getScreenMap() {

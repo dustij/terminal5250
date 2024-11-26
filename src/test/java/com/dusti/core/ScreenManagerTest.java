@@ -6,7 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import com.dusti.events.BufferEvent;
 import com.dusti.models.ScreenModel;
-import com.dusti.ui.ScreenPanel;
+import com.dusti.views.ScreenView;
 
 public class ScreenManagerTest {
     private ScreenBuffer screenBuffer;
@@ -30,7 +30,7 @@ public class ScreenManagerTest {
         screenBuffer = new ScreenBuffer(3, 3);
         screenManager = new ScreenManager(screenBuffer);
         
-        ScreenPanel screenPanel = spy(new ScreenPanel(screenBuffer));
+        ScreenView screenPanel = spy(new ScreenView(screenBuffer));
         screenBuffer.addListener(screenPanel);
         
         screenManager.getScreenMap().put("test", new ScreenModel());

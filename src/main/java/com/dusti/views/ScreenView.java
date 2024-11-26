@@ -1,16 +1,16 @@
-package com.dusti.ui;
+package com.dusti.views;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JPanel;
-import com.dusti.config.Theme;
 import com.dusti.core.ScreenBuffer;
 import com.dusti.core.ScreenManager;
 import com.dusti.events.BufferEvent;
 import com.dusti.interfaces.BufferChangeListener;
+import com.dusti.views.themes.Theme;
 
-public class ScreenPanel extends JPanel implements BufferChangeListener<Character> {
+public class ScreenView extends JPanel implements BufferChangeListener<Character> {
     private Theme theme;
     private final ScreenBuffer screenBuffer;
     private final int rows;
@@ -20,7 +20,7 @@ public class ScreenPanel extends JPanel implements BufferChangeListener<Characte
     private final int width;
     private final int height;
 
-    public ScreenPanel(ScreenBuffer screenBuffer) {
+    public ScreenView(ScreenBuffer screenBuffer) {
         this.theme = new Theme();
         this.screenBuffer = screenBuffer;
         this.rows = screenBuffer.getRows();

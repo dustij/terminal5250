@@ -1,14 +1,15 @@
-package com.dusti.config;
+package com.dusti.views.themes;
 
 import java.awt.Color;
 import java.awt.Font;
+import com.dusti.core.Config;
 
 public class Theme {
-    private final ConfigLoader config;
+    private final Config config;
     private final Font font; 
 
     public Theme() {
-        this.config = ConfigLoader.getInstance();
+        this.config = Config.getInstance();
         String fontName = config.getProperty("fontName", "Monospaced");
         int fontStyle = config.getIntProperty("fontStyle", Font.PLAIN);
         int fontSize = config.getIntProperty("fontSize", 26);

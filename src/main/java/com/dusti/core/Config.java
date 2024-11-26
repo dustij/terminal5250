@@ -1,18 +1,17 @@
-package com.dusti.config;
+package com.dusti.core;
 
 import java.awt.Color;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 import java.util.logging.Logger;
-import com.dusti.core.LoggerFactory;
 
-public class ConfigLoader {
-    private static ConfigLoader instance;
+public class Config {
+    private static Config instance;
     private final Properties properties;
-    private static final Logger logger = LoggerFactory.getLogger(ConfigLoader.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(Config.class.getName());
 
-    private ConfigLoader() {
+    private Config() {
         properties = new Properties();
         try (InputStream input = getClass().getResourceAsStream("/config")) {
             if (input != null) {
@@ -26,9 +25,9 @@ public class ConfigLoader {
         }
     }
 
-    public static ConfigLoader getInstance() {
+    public static Config getInstance() {
         if (instance == null) {
-            instance = new ConfigLoader();
+            instance = new Config();
         }
         return instance;
     }

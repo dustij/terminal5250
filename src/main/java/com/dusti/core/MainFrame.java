@@ -1,14 +1,13 @@
-package com.dusti.ui;
+package com.dusti.core;
 
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import com.dusti.config.Theme;
-import com.dusti.core.ScreenBuffer;
-import com.dusti.core.ScreenManager;
+import com.dusti.views.ScreenView;
+import com.dusti.views.themes.Theme;
 
 public class MainFrame extends JFrame {
-    private final JPanel screenPanel;
+    private final JPanel screenView;
     private final ScreenBuffer screenBuffer;
     private final ScreenManager screenManager;
 
@@ -24,10 +23,10 @@ public class MainFrame extends JFrame {
 
         this.screenBuffer = new ScreenBuffer(27, 80);
         this.screenManager = new ScreenManager(screenBuffer);
-        this.screenPanel = new ScreenPanel(screenBuffer);
-        this.setSize(screenPanel.getPreferredSize());
+        this.screenView = new ScreenView(screenBuffer);
+        this.setSize(screenView.getPreferredSize());
         this.setLayout(new BorderLayout());
-        this.add(screenPanel, BorderLayout.CENTER);
+        this.add(screenView, BorderLayout.CENTER);
         this.setLocationRelativeTo(null);
     }
 

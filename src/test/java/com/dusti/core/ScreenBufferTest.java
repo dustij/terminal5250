@@ -39,7 +39,7 @@ public class ScreenBufferTest {
             {'G', 'H', 'I'}
         };
 
-        screenBuffer.replaceBuffer(newBuffer);
+        screenBuffer.updateFromModel(newBuffer);
 
         assertEquals('A', screenBuffer.getCharAt(0, 0));
         assertEquals('E', screenBuffer.getCharAt(1, 1));

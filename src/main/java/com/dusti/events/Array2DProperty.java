@@ -16,7 +16,7 @@ public class Array2DProperty<T> {
         }
     }
 
-    public void dispatchNewBufferArrayEvent() {
+    public void dispatchUpdateEvent() {
         for (BufferChangeListener<T> listener : listeners) {
             listener.onBufferChange(new BufferEvent<>(null, null, null));
         }
