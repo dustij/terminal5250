@@ -2,6 +2,7 @@ package com.dusti.ui;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import javax.swing.JPanel;
 import com.dusti.config.Theme;
 import com.dusti.core.ScreenBuffer;
@@ -40,13 +41,15 @@ public class ScreenPanel extends JPanel implements BufferChangeListener<Characte
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        g.setColor(theme.getFieldColor());
+        Graphics2D g2 = (Graphics2D) g;
+
+        g2.setColor(theme.getFieldColor());
 
         // Draw characters from buffer
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
                 char ch = screenBuffer.getCharAt(row, col);
-                g.drawString(String.valueOf(ch), relX(col), relY(row));
+                g2.drawString(String.valueOf(ch), relX(col), relY(row));
             }
         }
     }
@@ -63,5 +66,11 @@ public class ScreenPanel extends JPanel implements BufferChangeListener<Characte
     private int relY(int row) {
         return (row + 1) * charHeight - this.getFontMetrics(theme.getFont()).getDescent();
     }
+
+    public ScreenBuffer getScreenBuffer() {
+        return screenBuffer;
+    }
+
+    
 
 }

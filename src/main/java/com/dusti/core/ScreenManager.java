@@ -1,5 +1,6 @@
 package com.dusti.core;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -21,16 +22,34 @@ public class ScreenManager {
     }
 
     private void initScreens() {
-        // TODO: implement resource loader using strategy (JSON, XML, etc.)
+        // TODO: implement resource loader using strategy design (JSON, XML, etc.)
         screens = new HashMap<>();
         activeScreen = screens.get("home");
+        setBufferFromModel();
     }
 
     private void setBufferFromModel() {
+        // TODO: remove this, only for testing
+        Character[][] screen2DArray = new Character[27][80]; 
+        activeScreen = new ScreenModel(); // to avoid null pointer while testing
+        for (int i = 0; i < 27; i++) {
+            Arrays.fill(screen2DArray[i], 'A');
+        }
+
         if (activeScreen == null)
             return;
-        Character[][] screen2DArray = new Character[27][80]; // TODO: replace this with array from screen model data
+
+
         screenBuffer.replaceBuffer(screen2DArray);
+    }
+
+    public void setActiveScreen(String name) {
+        activeScreen = screens.get(name);
+        setBufferFromModel();
+    }
+
+    public Map<String, ScreenModel> getScreenMap() {
+        return screens;
     }
 
 

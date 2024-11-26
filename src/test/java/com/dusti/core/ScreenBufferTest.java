@@ -32,6 +32,21 @@ public class ScreenBufferTest {
     }
 
     @Test
+    public void testReplaceBuffer() {
+        Character[][] newBuffer = {
+            {'A', 'B', 'C'},
+            {'D', 'E', 'F'},
+            {'G', 'H', 'I'}
+        };
+
+        screenBuffer.replaceBuffer(newBuffer);
+
+        assertEquals('A', screenBuffer.getCharAt(0, 0));
+        assertEquals('E', screenBuffer.getCharAt(1, 1));
+        assertEquals('I', screenBuffer.getCharAt(2, 2));
+    }
+
+    @Test
     void testAddListenerAndNotify() {
         AtomicReference<BufferEvent<Character>> capturedEvent = new AtomicReference<>();
 
@@ -42,8 +57,8 @@ public class ScreenBufferTest {
 
         BufferEvent<Character> event = capturedEvent.get();
         assertNotNull(event, "Listener should capture event");
-        assertEquals(3, event.getRow(), "Event row should be 3");
-        assertEquals(3, event.getCol(), "Event col should be 3");
+        assertEquals(3, event.getSource().getRow(), "Event row should be 3");
+        assertEquals(3, event.getSource().getCol(), "Event col should be 3");
         assertEquals(' ', event.getOldValue(), "Old value should be ' '");
         assertEquals('B', event.getNewValue(), "New value should be 'B'");
     }

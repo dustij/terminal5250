@@ -1,24 +1,14 @@
 package com.dusti.events;
 
 public class BufferEvent<T> {
-    private final int row;
-    private final int col;
+    private final BufferEventSource source;
     private final T oldValue;
     private final T newValue;
 
-    public BufferEvent(int row, int col, T oldValue, T newValue) {
-        this.row = row;
-        this.col = col;
+    public BufferEvent(BufferEventSource source, T oldValue, T newValue) {
+        this.source = source;
         this.oldValue = oldValue;
         this.newValue = newValue;
-    }
-
-    public int getRow() {
-        return row;
-    }
-
-    public int getCol() {
-        return col;
     }
 
     public T getOldValue() {
@@ -29,5 +19,7 @@ public class BufferEvent<T> {
         return newValue;
     }
 
-    
+    public BufferEventSource getSource() {
+        return source;
+    }
 }

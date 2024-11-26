@@ -18,7 +18,7 @@ public class Array2DProperty<T> {
 
     public void dispatchNewBufferArrayEvent() {
         for (BufferChangeListener<T> listener : listeners) {
-            listener.onBufferChange(new BufferEvent<>(-1, -1, null, null));
+            listener.onBufferChange(new BufferEvent<>(null, null, null));
         }
     }
 
@@ -37,7 +37,7 @@ public class Array2DProperty<T> {
     public void setValueAt(int row, int col, T value) {
         var oldValue = array2D[row][col];
         array2D[row][col] = value;
-        notifyListeners(new BufferEvent<>(row, col, oldValue, value));
+        notifyListeners(new BufferEvent<>(new BufferEventSource(row, col), oldValue, value));
     }
 
     private void notifyListeners(BufferEvent<T> event) {
