@@ -1,21 +1,21 @@
 package com.dusti.core;
 
-import java.util.Arrays;
 import java.util.logging.Logger;
-import com.dusti.events.Array2DCharProperty;
+import com.dusti.events.MatrixCharProperty;
 import com.dusti.interfaces.BufferChangeListener;
+import com.dusti.interfaces.ScreenElement;
 import com.dusti.models.ScreenModel;
 
 public class ScreenBuffer {
     private static final Logger logger = LoggerFactory.getLogger(ScreenBuffer.class.getName());
-    private Array2DCharProperty bufferProperty;
+    private MatrixCharProperty bufferProperty;
     private final int rows;
     private final int cols;
 
     public ScreenBuffer(int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
-        this.bufferProperty = new Array2DCharProperty(rows, cols);
+        this.bufferProperty = new MatrixCharProperty(rows, cols);
         initializeBuffer();
     }
 
@@ -37,14 +37,29 @@ public class ScreenBuffer {
         // Get listeners so that we can add them to new bufferProperty
         var listeners = bufferProperty.getListeners();
 
-        // TODO: remove this, only for testing
-        Character[][] array2D = new Character[27][80];
-        for (int i = 0; i < 27; i++) {
-            Arrays.fill(array2D[i], 'A');
+        // Initialize a new matrix
+        Character[][] matrix = new Character[rows][cols];
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                matrix[row][col] = ' ';
+            }
         }
-        bufferProperty = new Array2DCharProperty(array2D);
 
+        // Place elements in matrix by character
+        for (ScreenElement elem : model.getElements()) {
+            char[] chars = elem.getVisualRepr().toCharArray();
+            for (int i = 0; i < chars.length; i++) {
+                int col = elem.getCol() + i;
+                if (col > matrix[elem.getRow()].length - 1) {
+                    logger.warning(String.format("\"%s\" does not fit in matrix with %d rows and %d",elem.getVisualRepr(), rows, cols));
+                    break;
+                }
+                matrix[elem.getRow()][col] = chars[i];
+            }
+        }
 
+        // Reset bufferProperty and add listeners
+        bufferProperty = new MatrixCharProperty(matrix);
         for (var listener : listeners) {
             bufferProperty.addListener(listener);
         }

@@ -1,11 +1,16 @@
 package com.dusti.core;
 
 import static org.junit.jupiter.api.Assertions.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import com.dusti.events.BufferEvent;
 import com.dusti.interfaces.BufferChangeListener;
+import com.dusti.interfaces.ScreenElement;
+import com.dusti.models.ScreenElementModel;
+import com.dusti.models.ScreenModel;
 
 public class ScreenBufferTest {
     private ScreenBuffer screenBuffer;
@@ -32,18 +37,16 @@ public class ScreenBufferTest {
     }
 
     @Test
-    public void testReplaceBuffer() {
-        Character[][] newBuffer = {
-            {'A', 'B', 'C'},
-            {'D', 'E', 'F'},
-            {'G', 'H', 'I'}
-        };
+    public void testUpdateFromModel() {
+        List<ScreenElementModel> elems = new ArrayList<>();
+        elems.add(new ScreenElementModel("Test", "test", 0, 0));
 
-        screenBuffer.updateFromModel(newBuffer);
+        screenBuffer.updateFromModel(new ScreenModel("testScreen", "Test Screen", elems));
 
-        assertEquals('A', screenBuffer.getCharAt(0, 0));
-        assertEquals('E', screenBuffer.getCharAt(1, 1));
-        assertEquals('I', screenBuffer.getCharAt(2, 2));
+        assertEquals('T', screenBuffer.getCharAt(0, 0));
+        assertEquals('e', screenBuffer.getCharAt(0, 1));
+        assertEquals('s', screenBuffer.getCharAt(0, 2));
+        assertEquals('t', screenBuffer.getCharAt(0, 3));
     }
 
     @Test

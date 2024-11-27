@@ -5,13 +5,13 @@ import java.util.List;
 import java.util.function.Supplier;
 import com.dusti.interfaces.BufferChangeListener;
 
-public class Array2DProperty<T> {
+public class MatrixProperty<T> {
     private final List<BufferChangeListener<T>> listeners = new ArrayList<>();
-    private final T[][] array2D;
+    private final T[][] matrix;
 
-    public Array2DProperty(int rows, int cols, Supplier<T[][]> arraySupplier) {
-        this.array2D = arraySupplier.get();
-        if (array2D.length != rows || array2D[0].length != cols) {
+    public MatrixProperty(int rows, int cols, Supplier<T[][]> arraySupplier) {
+        this.matrix = arraySupplier.get();
+        if (matrix.length != rows || matrix[0].length != cols) {
             throw new IllegalArgumentException("Array dimensions must match rows and cols");
         }
     }
@@ -31,12 +31,12 @@ public class Array2DProperty<T> {
     }
 
     public T getValueAt(int row, int col) {
-        return array2D[row][col];
+        return matrix[row][col];
     }
 
     public void setValueAt(int row, int col, T value) {
-        var oldValue = array2D[row][col];
-        array2D[row][col] = value;
+        var oldValue = matrix[row][col];
+        matrix[row][col] = value;
         notifyListeners(new BufferEvent<>(new BufferEventSource(row, col), oldValue, value));
     }
 
@@ -47,11 +47,11 @@ public class Array2DProperty<T> {
     }
 
     public int getRowCount() {
-        return array2D.length;
+        return matrix.length;
     }
 
     public int getColCount() {
-        return array2D[0].length;
+        return matrix[0].length;
     }
 
     public List<BufferChangeListener<T>> getListeners() {

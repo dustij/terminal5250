@@ -1,15 +1,18 @@
 {
     "name": "home",
-    "fields": [
+    "title": "HOME",
+    "elements": [
         {
-            "name": "selection",
-            "label": "==>",
-            "inputLength": 5,
-            "totalLength": 8,
-            "position": {
-                "row": 22,
-                "col": 1
-            }
+            "visualRepr": "Selection",
+            "id": "selectionLabel",
+            "row": 5,
+            "col": 1
+        },
+        {
+            "visualRepr": "==>        ",
+            "id": "selectionInput",
+            "row": 6,
+            "col": 1
         }
     ]
 }

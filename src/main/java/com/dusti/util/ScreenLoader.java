@@ -19,6 +19,7 @@ public class ScreenLoader {
     }
 
     public Map<String, ScreenModel> getScreens() {
+        logger.info("ScreenLoader uses " + strategy.getClass().getSimpleName());
         Map<String, ScreenModel> screens = new HashMap<>();
 
         files = strategy.getFiles();

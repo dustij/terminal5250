@@ -10,11 +10,11 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BufferEventTest {
-    private Array2DCharProperty array2dCharProperty;
+    private MatrixCharProperty matrixProperty;
 
     @BeforeEach
     public void setup() {
-        array2dCharProperty = new Array2DCharProperty(3, 3);
+        matrixProperty = new MatrixCharProperty(3, 3);
     }
 
     @Test
@@ -35,12 +35,12 @@ public class BufferEventTest {
     }
 
     @Test
-    public void testArray2DProperty_NotifyListener() {
+    public void testMatrixProperty_NotifyListener() {
         List<BufferEvent<Character>> recievedEvents = new ArrayList<>();
         BufferChangeListener<Character> listener = recievedEvents::add;
-        array2dCharProperty.addListener(listener);
+        matrixProperty.addListener(listener);
 
-        array2dCharProperty.setValueAt(0, 0, 'X');
+        matrixProperty.setValueAt(0, 0, 'X');
 
         assertEquals(1, recievedEvents.size());
         BufferEvent<Character> event = recievedEvents.get(0);
@@ -51,22 +51,22 @@ public class BufferEventTest {
     }
 
     @Test
-    public void testArray2DProperty_AddRemoveListener() {
+    public void testMatrixProperty_AddRemoveListener() {
         BufferChangeListener<Character> listener = event -> {};
-        array2dCharProperty.addListener(listener);
-        assertEquals(1, array2dCharProperty.getListeners().size());
+        matrixProperty.addListener(listener);
+        assertEquals(1, matrixProperty.getListeners().size());
 
-        array2dCharProperty.removeListener(listener);
-        assertEquals(0, array2dCharProperty.getListeners().size());
+        matrixProperty.removeListener(listener);
+        assertEquals(0, matrixProperty.getListeners().size());
     }
 
     @Test
-    public void testArray2DProperty_DispatchNewBufferArrayEvent() {
+    public void testMatrixProperty_DispatchNewBufferArrayEvent() {
         List<BufferEvent<Character>> receivedEvents = new ArrayList<>();
         BufferChangeListener<Character> listener = receivedEvents::add;
-        array2dCharProperty.addListener(listener);
+        matrixProperty.addListener(listener);
 
-        array2dCharProperty.dispatchUpdateEvent();
+        matrixProperty.dispatchUpdateEvent();
         
         assertEquals(1, receivedEvents.size());
         BufferEvent<Character> event = receivedEvents.get(0);
@@ -76,7 +76,7 @@ public class BufferEventTest {
     }
 
     @Test
-    public void testArray2DProperty_InvalidArrayDimensions() {
-        assertThrows(IllegalArgumentException.class, () -> new Array2DProperty<>(2, 3, () -> new Character[3][2]));
+    public void testMatrixProperty_InvalidArrayDimensions() {
+        assertThrows(IllegalArgumentException.class, () -> new MatrixProperty<>(2, 3, () -> new Character[3][2]));
     }
 }

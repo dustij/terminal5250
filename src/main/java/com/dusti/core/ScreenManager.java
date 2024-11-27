@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 import com.dusti.models.ScreenModel;
+import com.dusti.util.ScreenLoader;
+import com.dusti.util.strategies.JsonScreenLoaderStrategy;
 
 public class ScreenManager {
     private final Logger logger = LoggerFactory.getLogger(ScreenManager.class.getName());
@@ -13,16 +15,13 @@ public class ScreenManager {
     private ScreenBuffer screenBuffer;
 
     public ScreenManager(ScreenBuffer screenBuffer) {
+        logger.info("Initializing ScreenManager");
         this.screenBuffer = screenBuffer;
-
         initScreens();
-
-        logger.info("Screen Manager initialized successfully.");
     }
 
     private void initScreens() {
-        // TODO: implement resource loader using strategy design (JSON, XML, etc.)
-        screens = new HashMap<>();
+        screens = new ScreenLoader(new JsonScreenLoaderStrategy()).getScreens();
         setActiveScreen("home");
     }
 

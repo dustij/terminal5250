@@ -3,8 +3,6 @@ package com.dusti.views;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import com.dusti.core.ScreenBuffer;
-import com.dusti.events.BufferEvent;
-import com.dusti.views.ScreenView;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
