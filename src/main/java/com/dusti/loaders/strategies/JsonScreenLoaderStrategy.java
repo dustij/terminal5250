@@ -1,4 +1,4 @@
-package com.dusti.util.strategies;
+package com.dusti.loaders.strategies;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
 import com.dusti.core.LoggerFactory;
-import com.dusti.interfaces.ScreenLoaderStrategy;
+import com.dusti.loaders.ScreenLoaderStrategy;
 import com.dusti.models.ScreenModel;
 import com.google.gson.Gson;
 

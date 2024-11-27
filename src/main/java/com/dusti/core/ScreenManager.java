@@ -1,12 +1,10 @@
 package com.dusti.core;
 
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
+import com.dusti.loaders.ScreenLoader;
 import com.dusti.models.ScreenModel;
-import com.dusti.util.ScreenLoader;
-import com.dusti.util.strategies.JsonScreenLoaderStrategy;
+import com.dusti.loaders.strategies.JsonScreenLoaderStrategy;
 
 public class ScreenManager {
     private final Logger logger = LoggerFactory.getLogger(ScreenManager.class.getName());

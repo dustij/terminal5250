@@ -1,4 +1,4 @@
-package com.dusti.util;
+package com.dusti.loaders;
 
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 import com.dusti.core.LoggerFactory;
-import com.dusti.interfaces.ScreenLoaderStrategy;
 import com.dusti.models.ScreenModel;
 
 public class ScreenLoader {

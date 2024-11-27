@@ -1,4 +1,4 @@
-package com.dusti.interfaces;
+package com.dusti.loaders;
 
 import java.nio.file.Path;
 import java.util.List;

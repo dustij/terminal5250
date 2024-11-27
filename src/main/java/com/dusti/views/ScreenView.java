@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JPanel;
 import com.dusti.core.ScreenBuffer;
-import com.dusti.core.ScreenManager;
 import com.dusti.events.BufferEvent;
 import com.dusti.interfaces.BufferChangeListener;
 import com.dusti.views.themes.Theme;
@@ -71,6 +70,11 @@ public class ScreenView extends JPanel implements BufferChangeListener<Character
         return screenBuffer;
     }
 
-    
+    public int getWidth() {
+        return width;
+    }
 
+    public int getHeight() {
+        return height;
+    }
 }

@@ -5,13 +5,13 @@
         {
             "visualRepr": "Selection",
             "id": "selectionLabel",
-            "row": 5,
+            "row": 23,
             "col": 1
         },
         {
             "visualRepr": "==>        ",
             "id": "selectionInput",
-            "row": 6,
+            "row": 24,
             "col": 1
         }
     ]
