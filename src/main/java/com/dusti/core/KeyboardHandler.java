@@ -101,8 +101,16 @@ public class KeyboardHandler {
         actionMap.put("handleBackspace", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                int newRow = cursorController.getRow();
+                int newCol = cursorController.getCol() - 1;
+
+                if (newCol < 0) return;
+
                 // Remove char from buffer
+                screenBuffer.removeCharAt(newRow, newCol);
+
                 // Move cursor left
+                cursorController.moveLeft();
             }
         });
 
@@ -111,7 +119,11 @@ public class KeyboardHandler {
         actionMap.put("handleDelete", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Remove char from buffer and shift chars left
+                int row = cursorController.getRow();
+                int col = cursorController.getCol();
+
+                // Shift chars left
+                screenBuffer.shiftCharsLeftAt(row, col);
             }
         });
 

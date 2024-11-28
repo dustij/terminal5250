@@ -20,6 +20,27 @@ public class ScreenManager {
 
     private void initScreens() {
         screens = new ScreenLoader(new JsonScreenLoaderStrategy()).getScreens();
+        validateScreens();
+    }
+
+    private void validateScreens() {
+        for (var screenEntry : screens.entrySet()) {
+            if (!validate(screenEntry.getValue())) {
+                logger.warning(String.format("%s screen has element(s) that do not fit in buffer.", screenEntry.getKey()));
+            }
+        }
+    }
+
+    private boolean validate(ScreenModel screen) {
+        var maxRows = screenBuffer.getRows();
+        var maxCols = screenBuffer.getCols();
+        for (var elem : screen.getElements()) {
+            if (elem.getRow() < 0) return false;
+            if (elem.getCol() < 0) return false;
+            if (elem.getRow() > maxRows) return false;
+            if (elem.getCol() + elem.getVisualRepr().length() > maxCols) return false;
+        }
+        return true;
     }
 
     public void setActiveScreen(String name) {

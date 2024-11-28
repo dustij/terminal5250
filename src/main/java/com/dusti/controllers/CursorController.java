@@ -1,6 +1,5 @@
 package com.dusti.controllers;
 
-import com.dusti.core.ScreenBuffer;
 import com.dusti.views.components.Cursor;
 
 public class CursorController {
@@ -47,5 +46,13 @@ public class CursorController {
         cursor.setVisible(true);
 
         cursor.repaint();
+    }
+
+    public int getRow() {
+        return cursor.getRow();
+    }
+
+    public int getCol() {
+        return cursor.getCol();
     }
 }

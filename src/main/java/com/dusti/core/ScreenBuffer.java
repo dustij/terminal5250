@@ -82,6 +82,18 @@ public class ScreenBuffer {
         bufferProperty.setValueAt(row, col, value);
     }
 
+    public void removeCharAt(int row, int col) {
+        setCharAt(row, col, ' ');
+    }
+
+    public void shiftCharsLeftAt(int row, int col) {
+        for (int i = 0; i < getCols() - col - 1; i++) {
+            var ch = getCharAt(row, col + i + 1);
+            removeCharAt(row, col + i + 1);
+            bufferProperty.setValueAt(row, col + i , ch);
+        }
+    }
+
     public int getRows() {
         return rows;
     }
