@@ -62,7 +62,7 @@ public class Cursor {
 
     public void repaint() {
         if (screenView != null) {
-            screenView.repaint(getX(), getY(), getWidth(), getHeight());
+            screenView.repaint();
         }
     }
 

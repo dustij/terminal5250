@@ -1,5 +1,6 @@
 package com.dusti.controllers;
 
+import com.dusti.core.ScreenBuffer;
 import com.dusti.views.components.Cursor;
 
 public class CursorController {
@@ -30,13 +31,14 @@ public class CursorController {
     }
 
     public void moveTo(int row, int col) {
-        if (row < 0) row = 0;
-        if (col < 0) col = 0;
-
         int screenRows = (int) cursor.getScreenRect().getHeight();
         int screenCols = (int) cursor.getScreenRect().getWidth();
 
-        // Wrap around
+        // Wrap around (from top, from left)
+        if (row < 0) row = screenRows - 1;
+        if (col < 0) col = screenCols - 1;
+
+        // Wrap around (from bottom, from right)
         row = row % screenRows;
         col = col % screenCols;
 

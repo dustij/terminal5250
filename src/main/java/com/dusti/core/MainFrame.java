@@ -3,6 +3,7 @@ package com.dusti.core;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Insets;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import com.dusti.controllers.CursorController;
 import com.dusti.views.ScreenView;
@@ -13,6 +14,7 @@ public class MainFrame extends JFrame {
     private final CursorController cursorController;
     private final ScreenBuffer screenBuffer;
     private final ScreenManager screenManager;
+    private final KeyboardHandler keyboardHandler;
 
     public MainFrame(String title) {
         super(title);
@@ -25,13 +27,18 @@ public class MainFrame extends JFrame {
         this.getContentPane().setBackground(theme.getScreenBackgroundColor());
 
         this.screenBuffer = new ScreenBuffer(27, 80);
-
         this.screenManager = new ScreenManager(screenBuffer);
         screenManager.setActiveScreen("home");
 
         this.screenView = new ScreenView(screenBuffer);
         this.cursorController = new CursorController(screenView.getTextCursor());
 
+        this.keyboardHandler = new KeyboardHandler(screenBuffer, cursorController);
+        this.keyboardHandler.setInputMap(screenView.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW));
+        this.keyboardHandler.setActionMap(screenView.getActionMap());
+        this.keyboardHandler.initKeyBindings();
+
+        // Set minimum size
         this.pack();
         Insets insets = this.getInsets();
         int frameMinWidth = screenView.getMinimumSize().width + insets.left + insets.right;

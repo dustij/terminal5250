@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.font.FontRenderContext;
 import javax.swing.JPanel;
 import com.dusti.core.ScreenBuffer;
 import com.dusti.events.BufferEvent;
@@ -83,6 +81,9 @@ public class ScreenView extends JPanel implements BufferChangeListener<Character
         return screenBuffer;
     }
 
+    public Cursor getTextCursor() {
+        return cursor;
+    }
     public int getWidth() {
         return width;
     }
@@ -97,10 +98,6 @@ public class ScreenView extends JPanel implements BufferChangeListener<Character
 
     public int getCharHeight() {
         return charHeight;
-    }
-
-    public Cursor getTextCursor() {
-        return cursor;
     }
 
     private void drawGrid(Graphics g) {
