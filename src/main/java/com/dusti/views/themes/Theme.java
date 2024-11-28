@@ -12,8 +12,8 @@ public class Theme {
         this.config = Config.getInstance();
         String fontName = config.getProperty("fontName", "Monospaced");
         int fontStyle = config.getIntProperty("fontStyle", Font.PLAIN);
-        int fontSize = config.getIntProperty("fontSize", 26);
-        this.font = new Font(fontName, fontStyle, fontSize);
+        int fontSize = config.getIntProperty("fontSize", 18);
+        this.font = new Font(fontName, fontStyle, fontSize > 30 ? 30 : fontSize);
     }
 
     public Font getFont() {

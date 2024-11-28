@@ -20,7 +20,6 @@ public class ScreenManager {
 
     private void initScreens() {
         screens = new ScreenLoader(new JsonScreenLoaderStrategy()).getScreens();
-        setActiveScreen("home");
     }
 
     public void setActiveScreen(String name) {

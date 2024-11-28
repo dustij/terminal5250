@@ -1,16 +1,16 @@
 package com.dusti.core;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Insets;
 import javax.swing.JFrame;
-import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
-import com.dusti.views.CursorView;
+import com.dusti.controllers.CursorController;
 import com.dusti.views.ScreenView;
 import com.dusti.views.themes.Theme;
 
 public class MainFrame extends JFrame {
-    private final JPanel screenView;
-    private final JPanel cursorView;
+    private final ScreenView screenView;
+    private final CursorController cursorController;
     private final ScreenBuffer screenBuffer;
     private final ScreenManager screenManager;
 
@@ -25,24 +25,21 @@ public class MainFrame extends JFrame {
         this.getContentPane().setBackground(theme.getScreenBackgroundColor());
 
         this.screenBuffer = new ScreenBuffer(27, 80);
+
         this.screenManager = new ScreenManager(screenBuffer);
+        screenManager.setActiveScreen("home");
+
         this.screenView = new ScreenView(screenBuffer);
-        this.cursorView = new CursorView();
+        this.cursorController = new CursorController(screenView.getTextCursor());
 
-        JLayeredPane layeredPane = new JLayeredPane();
-        layeredPane.setPreferredSize(screenView.getPreferredSize());
-        layeredPane.setLayout(null);
-        screenView.setBounds(0, 0, screenView.getWidth(), screenView.getHeight());
-        cursorView.setBounds(0, 0, screenView.getWidth(), screenView.getHeight());
+        this.pack();
+        Insets insets = this.getInsets();
+        int frameMinWidth = screenView.getMinimumSize().width + insets.left + insets.right;
+        int frameMinHeight = screenView.getMinimumSize().height + insets.top + insets.bottom;
+        this.setMinimumSize(new Dimension(frameMinWidth, frameMinHeight));
 
-        // DEFAULT_LAYER - The standard layer, where most components go. This the bottommost layer.
-        // PALETTE_LAYER - The palette layer sits over the default layer. Useful for floating toolbars and palettes, so they can be positioned above other components.
-        layeredPane.add(screenView, JLayeredPane.DEFAULT_LAYER);
-        layeredPane.add(cursorView, JLayeredPane.PALETTE_LAYER);
-
-        this.setSize(screenView.getPreferredSize());
         this.setLayout(new BorderLayout());
-        this.add(layeredPane, BorderLayout.CENTER);
+        this.add(screenView, BorderLayout.CENTER);
         this.setLocationRelativeTo(null);
     }
 }

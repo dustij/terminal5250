@@ -1,17 +1,23 @@
 package com.dusti.views;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.font.FontRenderContext;
 import javax.swing.JPanel;
 import com.dusti.core.ScreenBuffer;
 import com.dusti.events.BufferEvent;
 import com.dusti.interfaces.BufferChangeListener;
+import com.dusti.views.components.Cursor;
 import com.dusti.views.themes.Theme;
 
 public class ScreenView extends JPanel implements BufferChangeListener<Character> {
-    private Theme theme;
+    private final Theme theme;
     private final ScreenBuffer screenBuffer;
+    private final Cursor cursor;
+    private final FontMetrics fm;
     private final int rows;
     private final int cols;
     private final int charWidth;
@@ -21,17 +27,21 @@ public class ScreenView extends JPanel implements BufferChangeListener<Character
 
     public ScreenView(ScreenBuffer screenBuffer) {
         this.theme = new Theme();
+        this.cursor = new Cursor(0, 0, this);
         this.screenBuffer = screenBuffer;
         this.rows = screenBuffer.getRows();
         this.cols = screenBuffer.getCols();
-        this.charWidth = this.getFontMetrics(theme.getFont()).charWidth('W');
-        this.charHeight = this.getFontMetrics(theme.getFont()).getHeight();
+
+        this.setFont(theme.getFont());
+        this.fm = this.getFontMetrics(theme.getFont());
+        this.charWidth = fm.charWidth('W');
+        this.charHeight = fm.getHeight();
         this.width = cols * charWidth;
         this.height = rows * charHeight;
 
-        this.setFont(theme.getFont());
         this.setBackground(theme.getScreenBackgroundColor());
         this.setPreferredSize(new Dimension(width, height));
+        this.setMinimumSize(this.getPreferredSize());
 
         this.screenBuffer.addListener(this);
     }
@@ -40,17 +50,20 @@ public class ScreenView extends JPanel implements BufferChangeListener<Character
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        Graphics2D g2 = (Graphics2D) g;
-
-        g2.setColor(theme.getFieldColor());
+        g.setColor(theme.getFieldColor());
 
         // Draw characters from buffer
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
                 char ch = screenBuffer.getCharAt(row, col);
-                g2.drawString(String.valueOf(ch), relX(col), relY(row));
+                g.drawString(String.valueOf(ch), relX(col), relY(row));
             }
         }
+
+        cursor.render(g, fm);
+
+        // For testing purposes
+        // drawGrid(g);
     }
 
     @Override
@@ -58,12 +71,12 @@ public class ScreenView extends JPanel implements BufferChangeListener<Character
         repaint();
     }
 
-    private int relX(int col) {
+    public int relX(int col) {
         return col * charWidth;
     }
 
-    private int relY(int row) {
-        return (row + 1) * charHeight - this.getFontMetrics(theme.getFont()).getDescent();
+    public int relY(int row) {
+        return (row + 1) * charHeight - fm.getDescent();
     }
 
     public ScreenBuffer getScreenBuffer() {
@@ -76,5 +89,28 @@ public class ScreenView extends JPanel implements BufferChangeListener<Character
 
     public int getHeight() {
         return height;
+    }
+
+    public int getCharWidth() {
+        return charWidth;
+    }
+
+    public int getCharHeight() {
+        return charHeight;
+    }
+
+    public Cursor getTextCursor() {
+        return cursor;
+    }
+
+    private void drawGrid(Graphics g) {
+        // For testing purposes
+        g.setColor(Color.GRAY);
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                if (row == rows - 1) g.setColor(Color.MAGENTA);
+                g.drawRect(col * charWidth, row * charHeight, charWidth, charHeight);
+            }
+        }
     }
 }

@@ -74,9 +74,7 @@ public class Cursor {
         }
     }
 
-    public void moveBy(int dRow, int dCol) {
-        moveTo(row + dRow, col + dCol);
-    }
+    
 
     public void moveLeft() {
         moveBy(0, -1);
