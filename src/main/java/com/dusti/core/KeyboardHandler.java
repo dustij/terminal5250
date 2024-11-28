@@ -127,6 +127,15 @@ public class KeyboardHandler {
             }
         });
 
+        // Insert key
+        inputMap.put(KeyStroke.getKeyStroke("INSERT"), "handleInsert");
+        actionMap.put("handleInsert", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cursorController.toggleInsertMode();
+            }
+        });
+
         // Magic thing to handle typing any character, refer to ASCII table
         for (char c = ' '; c <= '~'; c++) {
             final char ch = c; // type safe for actionPerformed below
@@ -135,8 +144,19 @@ public class KeyboardHandler {
             actionMap.put(actionName, new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    // Insert char in buffer
-                    // Move cursor right
+                    int row = cursorController.getRow();
+                    int col = cursorController.getCol();
+                    
+                    if (cursorController.isInsertMode()) {
+                        // Insert char in buffer and shift right
+                        screenBuffer.insertCharAt(row, col, ch);
+                    } else {
+                        // Replace char in buffer
+                        screenBuffer.setCharAt(row, col, ch);
+
+                        // Move cursor right
+                        cursorController.moveRight();
+                    }
                 }
             });
         }

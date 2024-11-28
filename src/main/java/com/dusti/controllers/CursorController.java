@@ -55,4 +55,12 @@ public class CursorController {
     public int getCol() {
         return cursor.getCol();
     }
+
+    public void toggleInsertMode() {
+        cursor.setInsertMode(!cursor.isInsertMode());
+    }
+
+    public boolean isInsertMode() {
+        return cursor.isInsertMode();
+    }
 }

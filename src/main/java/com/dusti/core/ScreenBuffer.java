@@ -86,11 +86,24 @@ public class ScreenBuffer {
         setCharAt(row, col, ' ');
     }
 
+    public void insertCharAt(int row, int col, char value) {
+        shiftCharsRightAt(row, col);
+        setCharAt(row, col, value);
+    }
+
     public void shiftCharsLeftAt(int row, int col) {
         for (int i = 0; i < getCols() - col - 1; i++) {
             var ch = getCharAt(row, col + i + 1);
             removeCharAt(row, col + i + 1);
             bufferProperty.setValueAt(row, col + i , ch);
+        }
+    }
+
+    public void shiftCharsRightAt(int row, int col) {
+        for (int i = getCols() - 1; i > col; i--) {
+            var ch = getCharAt(row, i - 1);
+            removeCharAt(row, i - 1);
+            bufferProperty.setValueAt(row, i, ch);
         }
     }
 
