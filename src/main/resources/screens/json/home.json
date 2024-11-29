@@ -9,6 +9,18 @@
             "col": 0
         },
         {
+            "visualRepr": "First Name . . . ************",
+            "id": "selectionLabel",
+            "row": 0,
+            "col": 5
+        },
+        {
+            "visualRepr": "Last Name. . . . ************",
+            "id": "selectionLabel",
+            "row": 1,
+            "col": 5
+        },
+        {
             "visualRepr": "02",
             "id": "selectionLabel",
             "row": 1,

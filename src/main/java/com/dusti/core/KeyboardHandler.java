@@ -1,5 +1,6 @@
 package com.dusti.core;
 
+import java.util.function.Function;
 import java.util.logging.Logger;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
@@ -85,14 +86,16 @@ public class KeyboardHandler {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Move cursor to next field (left to right, top to bottom)
+                cursorController.moveDown(); // TODO: actually implement this later
             }
         });
 
-        inputMap.put(KeyStroke.getKeyStroke("shift TAB"), "handleTab");
-        actionMap.put("handleTab", new AbstractAction() {
+        inputMap.put(KeyStroke.getKeyStroke("shift TAB"), "handleShiftTab");
+        actionMap.put("handleShiftTab", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Move cursor to prev field (right to left, bottom to top)
+                cursorController.moveUp(); // TODO: actually implement this later
             }
         });
 
@@ -101,16 +104,19 @@ public class KeyboardHandler {
         actionMap.put("handleBackspace", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int newRow = cursorController.getRow();
-                int newCol = cursorController.getCol() - 1;
+                int row = cursorController.getRow();
+                int col = cursorController.getCol() - 1;
 
-                if (newCol < 0) return;
+                preprocess(row, col, () -> {
+                    if (col < 0)
+                        return;
 
-                // Remove char from buffer
-                screenBuffer.removeCharAt(newRow, newCol);
+                    // Remove char from buffer
+                    screenBuffer.removeCharAt(row, col);
 
-                // Move cursor left
-                cursorController.moveLeft();
+                    // Move cursor left
+                    cursorController.moveLeft();
+                });
             }
         });
 
@@ -122,8 +128,10 @@ public class KeyboardHandler {
                 int row = cursorController.getRow();
                 int col = cursorController.getCol();
 
-                // Shift chars left
-                screenBuffer.shiftCharsLeftAt(row, col);
+                preprocess(row, col, () -> {
+                    // Shift chars left
+                    screenBuffer.shiftCharsLeftAt(row, col);
+                });
             }
         });
 
@@ -146,21 +154,27 @@ public class KeyboardHandler {
                 public void actionPerformed(ActionEvent e) {
                     int row = cursorController.getRow();
                     int col = cursorController.getCol();
-                    
-                    if (cursorController.isInsertMode()) {
-                        // Insert char in buffer and shift right
-                        screenBuffer.insertCharAt(row, col, ch);
-                    } else {
-                        // Replace char in buffer
-                        screenBuffer.setCharAt(row, col, ch);
 
-                        // Move cursor right
-                        cursorController.moveRight();
-                    }
+                    preprocess(row, col, () -> {
+                        if (cursorController.isInsertMode()) {
+                            // Insert char in buffer and shift right
+                            screenBuffer.insertCharAt(row, col, ch);
+                        } else {
+                            // Replace char in buffer
+                            screenBuffer.setCharAt(row, col, ch);
+
+                            // Move cursor right
+                            cursorController.moveRight();
+                        }
+                    });
                 }
             });
         }
-
     }
-    
+
+    private void preprocess(int row, int col, Runnable func) {
+        if (screenBuffer.isProtectedCell(row, col))
+            return;
+        func.run();
+    }
 }

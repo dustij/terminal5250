@@ -48,13 +48,22 @@ public class ScreenView extends JPanel implements BufferChangeListener<Character
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        g.setColor(theme.getFieldColor());
+        
 
         // Draw characters from buffer
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
+
+                if (!screenBuffer.isProtectedCell(row, col)) {
+                    g.setColor(theme.getInputColor());
+                    // Draw line under unprotected cells (input fields)
+                    g.drawLine(relX(col), relY(row), relX(col + 1), relY(row));
+                } else {
+                    g.setColor(theme.getFieldColor());
+                }
+
                 char ch = screenBuffer.getCharAt(row, col);
-                g.drawString(String.valueOf(ch), relX(col), relY(row));
+                g.drawString(String.valueOf(ch), relX(col), relCharY(row));
             }
         }
 
@@ -74,7 +83,11 @@ public class ScreenView extends JPanel implements BufferChangeListener<Character
     }
 
     public int relY(int row) {
-        return (row + 1) * charHeight - fm.getDescent();
+        return (row + 1) * charHeight;
+    }
+
+    public int relCharY(int row) {
+        return relY(row) - fm.getDescent();
     }
 
     public ScreenBuffer getScreenBuffer() {

@@ -15,10 +15,12 @@ public class MainFrame extends JFrame {
     private final ScreenBuffer screenBuffer;
     private final ScreenManager screenManager;
     private final KeyboardHandler keyboardHandler;
+    private final MouseHandler mouseHandler;
 
     public MainFrame(String title) {
         super(title);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setFocusTraversalKeysEnabled(false);
 
         // Initialize theme
         Theme theme = new Theme();
@@ -37,6 +39,9 @@ public class MainFrame extends JFrame {
         this.keyboardHandler.setInputMap(screenView.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW));
         this.keyboardHandler.setActionMap(screenView.getActionMap());
         this.keyboardHandler.initKeyBindings();
+
+        this.mouseHandler = new MouseHandler(cursorController);
+        this.mouseHandler.addListener(screenView);
 
         // Set minimum size
         this.pack();

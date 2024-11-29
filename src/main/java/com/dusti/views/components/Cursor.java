@@ -44,7 +44,7 @@ public class Cursor {
         // Draw foreground content
         var ch = screenView.getScreenBuffer().getCharAt(row, col);
         x = screenView.relX(col);
-        y = screenView.relY(row);
+        y = screenView.relCharY(row);
         g.setColor(invertedFgColor);
         g.drawString(String.valueOf(ch), x, y);
 

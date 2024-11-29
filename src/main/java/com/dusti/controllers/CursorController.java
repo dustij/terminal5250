@@ -44,8 +44,13 @@ public class CursorController {
         cursor.setRow(row);
         cursor.setCol(col);
         cursor.setVisible(true);
-
         cursor.repaint();
+    }
+
+    public void moveToRel(int x, int y) {
+        int hieght = cursor.getHeight();
+        int width = cursor.getWidth();
+        moveTo(y / hieght, x / width);
     }
 
     public int getRow() {

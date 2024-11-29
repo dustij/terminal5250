@@ -9,6 +9,7 @@ import com.dusti.models.ScreenModel;
 public class ScreenBuffer {
     private static final Logger logger = LoggerFactory.getLogger(ScreenBuffer.class.getName());
     private MatrixCharProperty bufferProperty;
+    private boolean[][] protectedMatrix;
     private final int rows;
     private final int cols;
 
@@ -16,6 +17,7 @@ public class ScreenBuffer {
         this.rows = rows;
         this.cols = cols;
         this.bufferProperty = new MatrixCharProperty(rows, cols);
+        this.protectedMatrix = new boolean[rows][cols];
         initializeBuffer();
     }
 
@@ -23,6 +25,7 @@ public class ScreenBuffer {
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
                 bufferProperty.setValueAt(row, col, ' ');
+                protectedMatrix[row][col] = true;
             }
         }
     }
@@ -49,12 +52,21 @@ public class ScreenBuffer {
         for (ScreenElement elem : model.getElements()) {
             char[] chars = elem.getVisualRepr().toCharArray();
             for (int i = 0; i < chars.length; i++) {
+                int row = elem.getRow();
                 int col = elem.getCol() + i;
-                if (col > matrix[elem.getRow()].length - 1) {
+
+                if (col > matrix[row].length - 1) {
                     logger.warning(String.format("\"%s\" does not fit in matrix with %d rows and %d",elem.getVisualRepr(), rows, cols));
                     break;
                 }
-                matrix[elem.getRow()][col] = chars[i];
+                
+                // Unprotect input fields
+                if (chars[i] == '*') {
+                    matrix[row][col] = ' ';
+                    protectedMatrix[row][col] = false;
+                } else {
+                    matrix[row][col] = chars[i];
+                }
             }
         }
 
@@ -114,4 +126,9 @@ public class ScreenBuffer {
     public int getCols() {
         return cols;
     }
+
+    public boolean isProtectedCell(int row, int col) {
+        return protectedMatrix[row][col];
+    }
+
 }
