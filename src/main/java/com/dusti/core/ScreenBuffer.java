@@ -121,6 +121,7 @@ public class ScreenBuffer {
                 break;
         }
 
+        // Shift right inside input field only
         for (int i = indexEnd; i > col; i--) {
             var ch = getCharAt(row, i - 1);
             removeCharAt(row, i - 1);
