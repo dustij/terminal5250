@@ -112,7 +112,16 @@ public class ScreenBuffer {
     }
 
     public void shiftCharsRightAt(int row, int col) {
-        for (int i = getCols() - 1; i > col; i--) {
+        // Get index of last unprotected cell following this cell
+        int indexEnd = col;
+        for (int i = col; i < getCols(); i++) {
+            if (!isProtectedCell(row, i))
+                indexEnd = i;
+            else
+                break;
+        }
+
+        for (int i = indexEnd; i > col; i--) {
             var ch = getCharAt(row, i - 1);
             removeCharAt(row, i - 1);
             bufferProperty.setValueAt(row, i, ch);
