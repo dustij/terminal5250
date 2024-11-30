@@ -1,15 +1,20 @@
 package com.dusti.core;
 
+import java.awt.Color;
 import java.util.logging.Logger;
 import com.dusti.events.MatrixCharProperty;
 import com.dusti.interfaces.BufferChangeListener;
 import com.dusti.interfaces.ScreenElement;
 import com.dusti.models.ScreenModel;
+import com.dusti.views.themes.Theme;
 
 public class ScreenBuffer {
     private static final Logger logger = LoggerFactory.getLogger(ScreenBuffer.class.getName());
+    private static final Theme theme = new Theme();
     private MatrixCharProperty bufferProperty;
     private boolean[][] protectedMatrix;
+    private Color fgColor[][];
+    private Color bgColor[][];
     private final int rows;
     private final int cols;
     private String message;
@@ -19,6 +24,8 @@ public class ScreenBuffer {
         this.cols = cols;
         this.bufferProperty = new MatrixCharProperty(rows, cols);
         this.protectedMatrix = new boolean[rows][cols];
+        this.fgColor = new Color[rows][cols];
+        this.bgColor = new Color[rows][cols];
         initializeBuffer();
     }
 
@@ -27,6 +34,8 @@ public class ScreenBuffer {
             for (int col = 0; col < cols; col++) {
                 bufferProperty.setValueAt(row, col, ' ');
                 protectedMatrix[row][col] = true;
+                fgColor[row][col] = theme.getFieldColor();
+                bgColor[row][col] = theme.getScreenBackgroundColor();
             }
         }
     }
@@ -67,6 +76,7 @@ public class ScreenBuffer {
                 if (chars[i] == '*') {
                     matrix[row][col] = ' ';
                     protectedMatrix[row][col] = false;
+                    fgColor[row][col] = theme.getInputColor();
                 } else {
                     matrix[row][col] = chars[i];
                 }
@@ -95,7 +105,7 @@ public class ScreenBuffer {
 
     public void setMessage(String msg) {
         message = msg;
-        setStringAt(getRows() - 1, 1, msg);
+        setStringAt(getRows() - 1, 1, msg, theme.getInformationIndicatorsColor());
     }
 
     public void clearMessage() {
@@ -104,10 +114,19 @@ public class ScreenBuffer {
         }
     }
 
-    public void setStringAt(int row, int col, String str) {
+    public void setStringAt(int row, int col, String str, Color color) {
         for (int i = 0; i < col + str.length() - 1; i++) {
             bufferProperty.setValueAt(row, col + i, str.charAt(i));
+            fgColor[row][col + i] = color;
         }
+    }
+
+    public Color getFgColorAt(int row, int col) {
+        return fgColor[row][col];
+    }
+
+    public Color getBgColorAt(int row, int col) {
+        return bgColor[row][col];
     }
 
     public char getCharAt(int row, int col) {

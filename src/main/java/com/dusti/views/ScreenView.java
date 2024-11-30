@@ -51,14 +51,26 @@ public class ScreenView extends JPanel implements BufferChangeListener<Character
         // Draw characters from buffer
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
+                char ch = screenBuffer.getCharAt(row, col);
+                Color fg = screenBuffer.getFgColorAt(row, col);
+                Color bg = screenBuffer.getBgColorAt(row, col);
 
+                // Cell background color
+                g.setColor(bg);
+                g.fillRect(relX(col), relY(row), getCharWidth(), getCharHeight());
+
+                // Draw character
+                g.setColor(fg);
+                g.drawString(String.valueOf(ch), relX(col), relCharY(row));
+
+                // Input field
                 if (!screenBuffer.isProtectedCell(row, col)) {
                     // Draw column separators
                     g.setColor(theme.getColumnSeparatorColor());
                     // Left side
                     g.drawLine(relX(col),
                                relY(row), 
-                               relX(col) - 1,
+                               relX(col),
                                relY(row) - 2); // -2: Creates the small vertical tick up
                     // Right side
                     g.drawLine(relX(col) + getCharWidth(), 
@@ -69,16 +81,8 @@ public class ScreenView extends JPanel implements BufferChangeListener<Character
                     g.setColor(theme.getInputColor());
                     // Draw line under input fields
                     g.drawLine(relX(col), relY(row), relX(col + 1), relY(row));
-                } else if (row == screenBuffer.getRows() - 1) {
-                    // Color for message row
-                    g.setColor(theme.getInformationIndicatorsColor());
-                } else {
-                    // Color for non-input
-                    g.setColor(theme.getFieldColor());
                 }
 
-                char ch = screenBuffer.getCharAt(row, col);
-                g.drawString(String.valueOf(ch), relX(col), relCharY(row));
             }
         }
 
