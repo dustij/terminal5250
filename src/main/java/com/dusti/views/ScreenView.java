@@ -48,17 +48,32 @@ public class ScreenView extends JPanel implements BufferChangeListener<Character
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        
-
         // Draw characters from buffer
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
 
                 if (!screenBuffer.isProtectedCell(row, col)) {
+                    // Draw column separators
+                    g.setColor(theme.getColumnSeparatorColor());
+                    // Left side
+                    g.drawLine(relX(col),
+                               relY(row), 
+                               relX(col) - 1,
+                               relY(row) - 2); // -2: Creates the small vertical tick up
+                    // Right side
+                    g.drawLine(relX(col) + getCharWidth(), 
+                               relY(row) ,
+                               relX(col) + getCharWidth(), 
+                               relY(row) - 2);
+                    // Color for input fields
                     g.setColor(theme.getInputColor());
-                    // Draw line under unprotected cells (input fields)
+                    // Draw line under input fields
                     g.drawLine(relX(col), relY(row), relX(col + 1), relY(row));
+                } else if (row == screenBuffer.getRows() - 1) {
+                    // Color for message row
+                    g.setColor(theme.getInformationIndicatorsColor());
                 } else {
+                    // Color for non-input
                     g.setColor(theme.getFieldColor());
                 }
 
@@ -97,6 +112,7 @@ public class ScreenView extends JPanel implements BufferChangeListener<Character
     public Cursor getTextCursor() {
         return cursor;
     }
+
     public int getWidth() {
         return width;
     }
@@ -118,7 +134,8 @@ public class ScreenView extends JPanel implements BufferChangeListener<Character
         g.setColor(Color.GRAY);
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
-                if (row == rows - 1) g.setColor(Color.MAGENTA);
+                if (row == rows - 1)
+                    g.setColor(Color.MAGENTA);
                 g.drawRect(col * charWidth, row * charHeight, charWidth, charHeight);
             }
         }

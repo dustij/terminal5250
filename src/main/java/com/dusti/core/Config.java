@@ -53,4 +53,9 @@ public class Config {
         }
         return defaultValue;
     }
+
+    public boolean getBooleanProperty(String key, boolean defaultValue) {
+        String value = properties.getProperty(key);
+        return value != null ? Boolean.parseBoolean(value) : defaultValue;
+    }
 }

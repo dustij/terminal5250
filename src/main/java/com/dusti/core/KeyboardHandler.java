@@ -1,6 +1,5 @@
 package com.dusti.core;
 
-import java.util.function.Function;
 import java.util.logging.Logger;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
@@ -10,6 +9,7 @@ import javax.swing.KeyStroke;
 import com.dusti.controllers.CursorController;
 
 public class KeyboardHandler {
+    private static final Config config = Config.getInstance();
     private static final Logger logger = LoggerFactory.getLogger(KeyboardHandler.class.getName());
     private ScreenBuffer screenBuffer;
     private CursorController cursorController;
@@ -106,8 +106,10 @@ public class KeyboardHandler {
                     targetCell = screenBuffer.findNextUnprotectedCellToTheRight(currRow, currCol);
                 } else {
                     // Find the next protected cell, then move to the following unprotected cell
-                    int nextProtectedCol = screenBuffer.findNextUnprotectedIndexAfter(currRow, currCol) + 1;
-                    targetCell = screenBuffer.findNextUnprotectedCellToTheRight(currRow, nextProtectedCol);
+                    int nextProtectedCol =
+                            screenBuffer.findNextUnprotectedIndexAfter(currRow, currCol) + 1;
+                    targetCell = screenBuffer.findNextUnprotectedCellToTheRight(currRow,
+                            nextProtectedCol);
                 }
 
                 // Update cursor position
@@ -135,8 +137,10 @@ public class KeyboardHandler {
                 } else {
                     // Find the next protected cell, then move to the previous unprotected cell,
                     // again like above, its the first cell in the input section
-                    int nextProtectedCol = screenBuffer.findFirstUnprotectedIndexBefore(currRow, currCol) - 1;
-                    targetCell = screenBuffer.findFirstUnprotectedCellToTheLeft(currRow, nextProtectedCol);
+                    int nextProtectedCol =
+                            screenBuffer.findFirstUnprotectedIndexBefore(currRow, currCol) - 1;
+                    targetCell = screenBuffer.findFirstUnprotectedCellToTheLeft(currRow,
+                            nextProtectedCol);
                 }
 
                 // Update cursor position
@@ -152,7 +156,7 @@ public class KeyboardHandler {
                 int row = cursorController.getRow();
                 int col = cursorController.getCol() - 1;
 
-                preprocess(row, col, () -> {
+                preprocessInput(row, col, () -> {
                     if (col < 0)
                         return;
 
@@ -173,7 +177,7 @@ public class KeyboardHandler {
                 int row = cursorController.getRow();
                 int col = cursorController.getCol();
 
-                preprocess(row, col, () -> {
+                preprocessInput(row, col, () -> {
                     // Shift chars left
                     screenBuffer.shiftCharsLeftAt(row, col);
                 });
@@ -189,7 +193,7 @@ public class KeyboardHandler {
             }
         });
 
-        // Magic thing to handle typing any character, refer to ASCII table
+        // Magic thing to handle typing any character (in desired range), refer to ASCII table
         for (char c = ' '; c <= '~'; c++) {
             final char ch = c; // type safe for actionPerformed below
             String actionName = "type" + ch;
@@ -200,13 +204,17 @@ public class KeyboardHandler {
                     int row = cursorController.getRow();
                     int col = cursorController.getCol();
 
-                    preprocess(row, col, () -> {
+                    preprocessInput(row, col, () -> {
+                        var chr = ch;
+                        if (config.getBooleanProperty("capLockedInput", false)) {
+                            chr = Character.toUpperCase(ch);
+                        }
                         if (cursorController.isInsertMode()) {
                             // Insert char in buffer and shift right
-                            screenBuffer.insertCharAt(row, col, ch);
+                            screenBuffer.insertCharAt(row, col, chr);
                         } else {
                             // Replace char in buffer
-                            screenBuffer.setCharAt(row, col, ch);
+                            screenBuffer.setCharAt(row, col, chr);
 
                             // Move cursor right
                             cursorController.moveRight();
@@ -217,10 +225,20 @@ public class KeyboardHandler {
         }
     }
 
-    private void preprocess(int row, int col, Runnable func) {
+
+
+    private void preprocessInput(int row, int col, Runnable func) {
+        // Clear message if there is one
+        if (screenBuffer.getMessage() != null) {
+            screenBuffer.clearMessage();
+        }
+
         // Allow typing, backspacing, deleting, and inserting text in input fields only
-        if (screenBuffer.isProtectedCell(row, col))
+        if (screenBuffer.isProtectedCell(row, col)) {
+            screenBuffer.setMessage("Protected Area");
             return;
+        }
+
         func.run();
     }
 }

@@ -29,3 +29,6 @@ columnSeparator=white
 fontName=Monospaced
 fontStyle=0
 fontSize=22
+
+# Feel
+capLockedInput=true

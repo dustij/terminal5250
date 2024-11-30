@@ -223,18 +223,6 @@
             "id": "selectionLabel",
             "row": 25,
             "col": 0
-        },
-        {
-            "visualRepr": "27 g",
-            "id": "selectionLabel",
-            "row": 26,
-            "col": 0
-        },
-        {
-            "visualRepr": "==>",
-            "id": "selectionInput",
-            "row": 26,
-            "col": 77
         }
     ]
 }

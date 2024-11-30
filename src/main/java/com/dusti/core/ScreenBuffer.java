@@ -12,6 +12,7 @@ public class ScreenBuffer {
     private boolean[][] protectedMatrix;
     private final int rows;
     private final int cols;
+    private String message;
 
     public ScreenBuffer(int rows, int cols) {
         this.rows = rows;
@@ -88,6 +89,27 @@ public class ScreenBuffer {
         bufferProperty.removeListener(listener);
     }
 
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String msg) {
+        message = msg;
+        setStringAt(getRows() - 1, 1, msg);
+    }
+
+    public void clearMessage() {
+        for (int col = 1; col < message.length() + 1; col++) {
+            bufferProperty.setValueAt(getRows() - 1, col, ' ');
+        }
+    }
+
+    public void setStringAt(int row, int col, String str) {
+        for (int i = 0; i < col + str.length() - 1; i++) {
+            bufferProperty.setValueAt(row, col + i, str.charAt(i));
+        }
+    }
+
     public char getCharAt(int row, int col) {
         return bufferProperty.getValueAt(row, col);
     }
@@ -108,8 +130,6 @@ public class ScreenBuffer {
     public void shiftCharsLeftAt(int row, int col) {
         // Get index of last unprotected cell following this cell
         int indexEnd = findNextUnprotectedIndexAfter(row, col);
-
-
 
         for (int i = 0; i < indexEnd - col; i++) {
             var ch = getCharAt(row, col + i + 1);
