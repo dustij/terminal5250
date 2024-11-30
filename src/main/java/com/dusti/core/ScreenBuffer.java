@@ -107,7 +107,7 @@ public class ScreenBuffer {
 
     public void shiftCharsLeftAt(int row, int col) {
         // Get index of last unprotected cell following this cell
-        int indexEnd = getLastUnprotectedIndexFrom(row, col);
+        int indexEnd = findNextUnprotectedIndexAfter(row, col);
 
 
 
@@ -120,7 +120,7 @@ public class ScreenBuffer {
 
     public void shiftCharsRightAt(int row, int col) {
         // Get index of last unprotected cell following this cell
-        int indexEnd = getLastUnprotectedIndexFrom(row, col);
+        int indexEnd = findNextUnprotectedIndexAfter(row, col);
 
         // Shift right inside input field only
         for (int i = indexEnd; i > col; i--) {
@@ -142,7 +142,7 @@ public class ScreenBuffer {
         return protectedMatrix[row][col];
     }
 
-    public int[] getLastUnprotectedCellToTheLeft(int row, int col) {
+    public int[] findFirstUnprotectedCellToTheLeft(int row, int col) {
         // Start search from specified location, moving right-to-left, bottom-to-top
         boolean firstFound = false;
         int canidateCol = col;
@@ -154,8 +154,7 @@ public class ScreenBuffer {
                     }
                     canidateCol = c;
                 } else {
-                    // First row iteration we start at specified col,
-                    // then each row after that we start at col end
+                    // On the first row iteration, start at specified column
                     if (r == row && c > col) {
                         c = col;
                     }
@@ -167,13 +166,11 @@ public class ScreenBuffer {
             }
         }
 
-        // If no unprotected fields, search from ending up until
-        // specified location (effectively "wrapping" back around)
+        // Wrap-around serach: start from the last cell up to the specified location
         for (int r = getRows() - 1; r >= 0; r--) {
             for (int c = getCols() - 1; c >= 0; c--) {
-                // Stop searching once we are back to our starting point
                 if (r == row && c == col) {
-                    break;
+                    break; // Stop when back at the starting point
                 }
 
                 if (firstFound) {
@@ -194,16 +191,12 @@ public class ScreenBuffer {
         return new int[] {row, col};
     }
 
-    
-
-    public int[] getNextUnprotectedCellToTheRight(int row, int col) {
+    public int[] findNextUnprotectedCellToTheRight(int row, int col) {
         // Start search from specified location, moving left-to-right, top-to-bottom
         for (int r = row; r < getRows(); r++) {
             for (int c = 0; c < getCols(); c++) {
-                // First row iteration we start at specified col,
-                // then each row after that we start at col 0
                 if (r == row && c < col) {
-                    c = col;
+                    c = col; // Skip to the specified column on the first row iteration
                 }
 
                 if (!isProtectedCell(r, c)) {
@@ -212,13 +205,11 @@ public class ScreenBuffer {
             }
         }
 
-        // If no unprotected fields, search from beginning up until
-        // specified location (effectively "wrapping" back around)
+        // Wrap-around search: start from the first cell up to the specified location
         for (int r = 0; r <= row; r++) {
             for (int c = 0; c < getCols(); c++) {
-                // Stop searching once we are back to our starting point
                 if (r == row && c == col) {
-                    break;
+                    break; // Stop when back at the starting point
                 }
 
                 if (!isProtectedCell(r, c)) {
@@ -231,7 +222,7 @@ public class ScreenBuffer {
         return new int[] {row, col};
     }
 
-    public int getFirstUnprotectedIndexFrom(int row, int col) {
+    public int findFirstUnprotectedIndexBefore(int row, int col) {
         int indexStart = col;
         for (int i = col; i >= 0; i--) {
             if (isProtectedCell(row, i))
@@ -242,8 +233,7 @@ public class ScreenBuffer {
         return indexStart;
     }
 
-
-    public int getLastUnprotectedIndexFrom(int row, int col) {
+    public int findNextUnprotectedIndexAfter(int row, int col) {
         int indexEnd = col;
         for (int i = col; i < getCols(); i++) {
             if (!isProtectedCell(row, i))
@@ -253,6 +243,5 @@ public class ScreenBuffer {
         }
         return indexEnd;
     }
-
 
 }

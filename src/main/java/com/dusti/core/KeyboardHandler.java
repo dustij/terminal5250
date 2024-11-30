@@ -90,54 +90,57 @@ public class KeyboardHandler {
         });
 
         // Tab key
+        // Moves cursor to the start of the next input field in row-major order
         inputMap.put(KeyStroke.getKeyStroke("TAB"), "handleTab");
         actionMap.put("handleTab", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Move cursor to next field (left to right, top to bottom)
+                // Current cursor position
                 int currRow = cursorController.getRow();
                 int currCol = cursorController.getCol();
-                int[] cell = new int[] {currRow, currCol};
+                int[] targetCell = new int[] {currRow, currCol};
 
-                // If cursor is in protected cell, move to first unprotected cell to the right
+                // Move cursor based on current cell's protection state
                 if (screenBuffer.isProtectedCell(currRow, currCol)) {
-                    cell = screenBuffer.getNextUnprotectedCellToTheRight(currRow, currCol);
-
+                    // Move to the first unprotected cell to the right
+                    targetCell = screenBuffer.findNextUnprotectedCellToTheRight(currRow, currCol);
+                } else {
+                    // Find the next protected cell, then move to the following unprotected cell
+                    int nextProtectedCol = screenBuffer.findNextUnprotectedIndexAfter(currRow, currCol) + 1;
+                    targetCell = screenBuffer.findNextUnprotectedCellToTheRight(currRow, nextProtectedCol);
                 }
 
-                // If cursor is in unprotected cell, move to first unprotected cell 
-                // after the next protected cell to the right
-                else {
-                    int nextProtectedCol = screenBuffer.getLastUnprotectedIndexFrom(currRow, currCol) + 1;
-                    cell = screenBuffer.getNextUnprotectedCellToTheRight(currRow, nextProtectedCol);
-                }
-
-                cursorController.moveTo(cell[0], cell[1]);
+                // Update cursor position
+                cursorController.moveTo(targetCell[0], targetCell[1]);
             }
         });
 
-        // Shift + Tab key
+        // Shift+Tab key
+        // Moves cursor to the start of the previous input field in reverse row-major order
         inputMap.put(KeyStroke.getKeyStroke("shift TAB"), "handleShiftTab");
         actionMap.put("handleShiftTab", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Move cursor to previous field (right to left, bottom to top)
+                // Current cursor position
                 int currRow = cursorController.getRow();
                 int currCol = cursorController.getCol();
-                int[] cell = new int[] {currRow, currCol};
+                int[] targetCell = new int[] {currRow, currCol};
 
-                // If cursor is in protected cell, move to last unprotected cell to the left
+                // Move cursor based on cell's protection state
                 if (screenBuffer.isProtectedCell(currRow, currCol)) {
-                    cell = screenBuffer.getLastUnprotectedCellToTheLeft(currRow, currCol);
-                }
-                // If cursor is in unprotected cell, move to last unprotected cell
-                // after the next protected cell to the left
-                else {
-                    int nextProtectedCol = screenBuffer.getFirstUnprotectedIndexFrom(currRow, currCol) - 1;
-                    cell = screenBuffer.getLastUnprotectedCellToTheLeft(currRow, nextProtectedCol);
+                    // Move to the the first unprotected cell to the left
+                    // This is not necessarily the first cell seen, it is actually
+                    // the first cell in the next input section to the left
+                    targetCell = screenBuffer.findFirstUnprotectedCellToTheLeft(currRow, currCol);
+                } else {
+                    // Find the next protected cell, then move to the previous unprotected cell,
+                    // again like above, its the first cell in the input section
+                    int nextProtectedCol = screenBuffer.findFirstUnprotectedIndexBefore(currRow, currCol) - 1;
+                    targetCell = screenBuffer.findFirstUnprotectedCellToTheLeft(currRow, nextProtectedCol);
                 }
 
-                cursorController.moveTo(cell[0], cell[1]);
+                // Update cursor position
+                cursorController.moveTo(targetCell[0], targetCell[1]);
             }
         });
 
