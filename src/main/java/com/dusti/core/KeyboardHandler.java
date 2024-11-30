@@ -80,22 +80,64 @@ public class KeyboardHandler {
             }
         });
 
+        // Enter key
+        inputMap.put(KeyStroke.getKeyStroke("ENTER"), "handleEnter");
+        actionMap.put("handleEnter", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO: handle submit data, or tab if n/a
+            }
+        });
+
         // Tab key
         inputMap.put(KeyStroke.getKeyStroke("TAB"), "handleTab");
         actionMap.put("handleTab", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Move cursor to next field (left to right, top to bottom)
-                cursorController.moveDown(); // TODO: actually implement this later
+                int currRow = cursorController.getRow();
+                int currCol = cursorController.getCol();
+                int[] cell = new int[] {currRow, currCol};
+
+                // If cursor is in protected cell, move to first unprotected cell to the right
+                if (screenBuffer.isProtectedCell(currRow, currCol)) {
+                    cell = screenBuffer.getNextUnprotectedCellToTheRight(currRow, currCol);
+
+                }
+
+                // If cursor is in unprotected cell, move to first unprotected cell 
+                // after the next protected cell to the right
+                else {
+                    int nextProtectedCol = screenBuffer.getLastUnprotectedIndexFrom(currRow, currCol) + 1;
+                    cell = screenBuffer.getNextUnprotectedCellToTheRight(currRow, nextProtectedCol);
+                }
+
+                cursorController.moveTo(cell[0], cell[1]);
             }
         });
 
+        // Shift + Tab key
         inputMap.put(KeyStroke.getKeyStroke("shift TAB"), "handleShiftTab");
         actionMap.put("handleShiftTab", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Move cursor to prev field (right to left, bottom to top)
-                cursorController.moveUp(); // TODO: actually implement this later
+                // Move cursor to previous field (right to left, bottom to top)
+                int currRow = cursorController.getRow();
+                int currCol = cursorController.getCol();
+                int[] cell = new int[] {currRow, currCol};
+
+                // If cursor is in protected cell, move to last unprotected cell to the left
+                if (screenBuffer.isProtectedCell(currRow, currCol)) {
+                    cell = screenBuffer.getLastUnprotectedCellToTheLeft(currRow, currCol);
+                }
+                // If cursor is in unprotected cell, move to last unprotected cell
+                // after the next protected cell to the left
+                else {
+                    int nextProtectedCol = screenBuffer.getFirstUnprotectedIndexFrom(currRow, currCol) - 1;
+                    cell = screenBuffer.getLastUnprotectedCellToTheLeft(currRow, nextProtectedCol);
+                }
+
+                cursorController.moveTo(cell[0], cell[1]);
             }
         });
 
@@ -173,6 +215,7 @@ public class KeyboardHandler {
     }
 
     private void preprocess(int row, int col, Runnable func) {
+        // Allow typing, backspacing, deleting, and inserting text in input fields only
         if (screenBuffer.isProtectedCell(row, col))
             return;
         func.run();

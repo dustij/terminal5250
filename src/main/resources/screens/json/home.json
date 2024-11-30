@@ -17,8 +17,20 @@
         {
             "visualRepr": "Last Name. . . . ************",
             "id": "selectionLabel",
+            "row": 0,
+            "col": 37
+        },
+        {
+            "visualRepr": "Phone Number . . ************",
+            "id": "selectionLabel",
             "row": 1,
             "col": 5
+        },
+        {
+            "visualRepr": "Email. . . . . . ************",
+            "id": "selectionLabel",
+            "row": 1,
+            "col": 37
         },
         {
             "visualRepr": "02",
@@ -39,16 +51,34 @@
             "col": 0
         },
         {
+            "visualRepr": "Email (Primary) . ************",
+            "id": "selectionLabel",
+            "row": 3,
+            "col": 37
+        },
+        {
             "visualRepr": "05",
             "id": "selectionLabel",
             "row": 4,
             "col": 0
         },
         {
+            "visualRepr": "Email (Work). . . ************",
+            "id": "selectionLabel",
+            "row": 4,
+            "col": 37
+        },
+        {
             "visualRepr": "06",
             "id": "selectionLabel",
             "row": 5,
             "col": 0
+        },
+        {
+            "visualRepr": "Email (Home). . . ************",
+            "id": "selectionLabel",
+            "row": 5,
+            "col": 37
         },
         {
             "visualRepr": "07",
@@ -67,6 +97,12 @@
             "id": "selectionLabel",
             "row": 8,
             "col": 0
+        },
+        {
+            "visualRepr": "Y/N. . *",
+            "id": "selectionLabel",
+            "row": 8,
+            "col": 5
         },
         {
             "visualRepr": "10",

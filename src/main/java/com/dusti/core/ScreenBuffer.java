@@ -56,10 +56,12 @@ public class ScreenBuffer {
                 int col = elem.getCol() + i;
 
                 if (col > matrix[row].length - 1) {
-                    logger.warning(String.format("\"%s\" does not fit in matrix with %d rows and %d",elem.getVisualRepr(), rows, cols));
+                    logger.warning(
+                            String.format("\"%s\" does not fit in matrix with %d rows and %d",
+                                    elem.getVisualRepr(), rows, cols));
                     break;
                 }
-                
+
                 // Unprotect input fields
                 if (chars[i] == '*') {
                     matrix[row][col] = ' ';
@@ -104,22 +106,21 @@ public class ScreenBuffer {
     }
 
     public void shiftCharsLeftAt(int row, int col) {
-        for (int i = 0; i < getCols() - col - 1; i++) {
+        // Get index of last unprotected cell following this cell
+        int indexEnd = getLastUnprotectedIndexFrom(row, col);
+
+
+
+        for (int i = 0; i < indexEnd - col; i++) {
             var ch = getCharAt(row, col + i + 1);
             removeCharAt(row, col + i + 1);
-            bufferProperty.setValueAt(row, col + i , ch);
+            bufferProperty.setValueAt(row, col + i, ch);
         }
     }
 
     public void shiftCharsRightAt(int row, int col) {
         // Get index of last unprotected cell following this cell
-        int indexEnd = col;
-        for (int i = col; i < getCols(); i++) {
-            if (!isProtectedCell(row, i))
-                indexEnd = i;
-            else
-                break;
-        }
+        int indexEnd = getLastUnprotectedIndexFrom(row, col);
 
         // Shift right inside input field only
         for (int i = indexEnd; i > col; i--) {
@@ -140,5 +141,118 @@ public class ScreenBuffer {
     public boolean isProtectedCell(int row, int col) {
         return protectedMatrix[row][col];
     }
+
+    public int[] getLastUnprotectedCellToTheLeft(int row, int col) {
+        // Start search from specified location, moving right-to-left, bottom-to-top
+        boolean firstFound = false;
+        int canidateCol = col;
+        for (int r = row; r >= 0; r--) {
+            for (int c = getCols() - 1; c >= 0; c--) {
+                if (firstFound) {
+                    if (isProtectedCell(r, c)) {
+                        return new int[] {r, canidateCol};
+                    }
+                    canidateCol = c;
+                } else {
+                    // First row iteration we start at specified col,
+                    // then each row after that we start at col end
+                    if (r == row && c > col) {
+                        c = col;
+                    }
+                    if (!isProtectedCell(r, c)) {
+                        canidateCol = c;
+                        firstFound = true;
+                    }
+                }
+            }
+        }
+
+        // If no unprotected fields, search from ending up until
+        // specified location (effectively "wrapping" back around)
+        for (int r = getRows() - 1; r >= 0; r--) {
+            for (int c = getCols() - 1; c >= 0; c--) {
+                // Stop searching once we are back to our starting point
+                if (r == row && c == col) {
+                    break;
+                }
+
+                if (firstFound) {
+                    if (isProtectedCell(r, c)) {
+                        return new int[] {r, canidateCol};
+                    }
+                    canidateCol = c;
+                } else {
+                    if (!isProtectedCell(r, c)) {
+                        canidateCol = c;
+                        firstFound = true;
+                    }
+                }
+            }
+        }
+
+        // No unprotected cells found
+        return new int[] {row, col};
+    }
+
+    
+
+    public int[] getNextUnprotectedCellToTheRight(int row, int col) {
+        // Start search from specified location, moving left-to-right, top-to-bottom
+        for (int r = row; r < getRows(); r++) {
+            for (int c = 0; c < getCols(); c++) {
+                // First row iteration we start at specified col,
+                // then each row after that we start at col 0
+                if (r == row && c < col) {
+                    c = col;
+                }
+
+                if (!isProtectedCell(r, c)) {
+                    return new int[] {r, c};
+                }
+            }
+        }
+
+        // If no unprotected fields, search from beginning up until
+        // specified location (effectively "wrapping" back around)
+        for (int r = 0; r <= row; r++) {
+            for (int c = 0; c < getCols(); c++) {
+                // Stop searching once we are back to our starting point
+                if (r == row && c == col) {
+                    break;
+                }
+
+                if (!isProtectedCell(r, c)) {
+                    return new int[] {r, c};
+                }
+            }
+        }
+
+        // No unprotected cells found
+        return new int[] {row, col};
+    }
+
+    public int getFirstUnprotectedIndexFrom(int row, int col) {
+        int indexStart = col;
+        for (int i = col; i >= 0; i--) {
+            if (isProtectedCell(row, i))
+                indexStart = i;
+            else
+                break;
+        }
+        return indexStart;
+    }
+
+
+    public int getLastUnprotectedIndexFrom(int row, int col) {
+        int indexEnd = col;
+        for (int i = col; i < getCols(); i++) {
+            if (!isProtectedCell(row, i))
+                indexEnd = i;
+            else
+                break;
+        }
+        return indexEnd;
+    }
+
 
 }
