@@ -11,12 +11,14 @@ public class ScreenElementModel implements ScreenElement{
     private final String id;
     private final int row;
     private final int col;
+    private final String type;
 
-    public ScreenElementModel(String visualRepr, String id, int row, int col) {
+    public ScreenElementModel(String visualRepr, String id, int row, int col, String type) {
         this.visualRepr = visualRepr;
         this.id = id;
         this.row = row;
         this.col = col;
+        this.type = type;
     }
 
     @Override
@@ -44,6 +46,9 @@ public class ScreenElementModel implements ScreenElement{
         return col;
     }
 
-    
+    @Override
+    public String getType() {
+        return type;
+    }    
     
 }

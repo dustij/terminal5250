@@ -64,6 +64,7 @@ public class ScreenBuffer {
             for (int i = 0; i < chars.length; i++) {
                 int row = elem.getRow();
                 int col = elem.getCol() + i;
+                var elemType = elem.getType();
 
                 if (col > matrix[row].length - 1) {
                     logger.warning(
@@ -72,14 +73,22 @@ public class ScreenBuffer {
                     break;
                 }
 
+                // Set character
+                matrix[row][col] = chars[i];
+
                 // Unprotect input fields
-                if (chars[i] == '*') {
-                    matrix[row][col] = ' ';
+                if ("input".equals(elemType)) {
                     protectedMatrix[row][col] = false;
-                    fgColor[row][col] = theme.getInputColor();
-                } else {
-                    matrix[row][col] = chars[i];
                 }
+                // if (chars[i] == '*') {
+                //     matrix[row][col] = ' ';
+                //     protectedMatrix[row][col] = false;
+                // } else {
+                //     matrix[row][col] = chars[i];
+                // }
+
+                // Add colors
+                fgColor[row][col] = theme.getColorByElementType(elemType);
             }
         }
 

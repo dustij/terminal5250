@@ -6,4 +6,5 @@ public interface ScreenElement {
     String getID();
     int getRow();
     int getCol();
+    String getType();
 }

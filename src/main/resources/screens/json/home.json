@@ -6,217 +6,92 @@
             "visualRepr": "01",
             "id": "selectionLabel",
             "row": 0,
-            "col": 0
+            "col": 0,
+            "type": "field"
         },
         {
-            "visualRepr": "First Name . . . ************",
-            "id": "selectionLabel",
+            "visualRepr": "First Name . . .",
+            "id": "firstNameLabel",
             "row": 0,
-            "col": 5
+            "col": 5,
+            "type": "field"
         },
         {
-            "visualRepr": "Last Name. . . . ************",
+            "visualRepr": "       ",
+            "id": "firstNameInput",
+            "row": 0,
+            "col": 22,
+            "type": "input"
+        },
+        {
+            "visualRepr": "Last Name. . . .",
             "id": "selectionLabel",
             "row": 0,
-            "col": 37
+            "col": 37,
+            "type": "field"
+        },
+        {
+            "visualRepr": "*      ",
+            "id": "lastNameInput",
+            "row": 0,
+            "col": 54,
+            "type": "input"
         },
         {
             "visualRepr": "Phone Number . . ************",
             "id": "selectionLabel",
             "row": 1,
-            "col": 5
+            "col": 5,
+            "type": "field"
         },
         {
             "visualRepr": "Email. . . . . . ************",
             "id": "selectionLabel",
             "row": 1,
-            "col": 37
-        },
-        {
-            "visualRepr": "02",
-            "id": "selectionLabel",
-            "row": 1,
-            "col": 0
-        },
-        {
-            "visualRepr": "03",
-            "id": "selectionLabel",
-            "row": 2,
-            "col": 0
-        },
-        {
-            "visualRepr": "04",
-            "id": "selectionLabel",
-            "row": 3,
-            "col": 0
+            "col": 37,
+            "type": "field"
         },
         {
             "visualRepr": "Email (Primary) . ************",
             "id": "selectionLabel",
             "row": 3,
-            "col": 37
-        },
-        {
-            "visualRepr": "05",
-            "id": "selectionLabel",
-            "row": 4,
-            "col": 0
+            "col": 37,
+            "type": "field"
         },
         {
             "visualRepr": "Email (Work). . . ************",
             "id": "selectionLabel",
             "row": 4,
-            "col": 37
-        },
-        {
-            "visualRepr": "06",
-            "id": "selectionLabel",
-            "row": 5,
-            "col": 0
+            "col": 37,
+            "type": "field"
         },
         {
             "visualRepr": "Email (Home). . . ************",
             "id": "selectionLabel",
             "row": 5,
-            "col": 37
-        },
-        {
-            "visualRepr": "07",
-            "id": "selectionLabel",
-            "row": 6,
-            "col": 0
-        },
-        {
-            "visualRepr": "08",
-            "id": "selectionLabel",
-            "row": 7,
-            "col": 0
-        },
-        {
-            "visualRepr": "09",
-            "id": "selectionLabel",
-            "row": 8,
-            "col": 0
+            "col": 37,
+            "type": "field"
         },
         {
             "visualRepr": "Y/N. . *",
             "id": "selectionLabel",
             "row": 8,
-            "col": 5
-        },
-        {
-            "visualRepr": "10",
-            "id": "selectionLabel",
-            "row": 9,
-            "col": 0
-        },
-        {
-            "visualRepr": "11",
-            "id": "selectionLabel",
-            "row": 10,
-            "col": 0
-        },
-        {
-            "visualRepr": "12",
-            "id": "selectionLabel",
-            "row": 11,
-            "col": 0
-        },
-        {
-            "visualRepr": "13",
-            "id": "selectionLabel",
-            "row": 12,
-            "col": 0
-        },
-        {
-            "visualRepr": "14",
-            "id": "selectionLabel",
-            "row": 13,
-            "col": 0
-        },
-        {
-            "visualRepr": "15",
-            "id": "selectionLabel",
-            "row": 14,
-            "col": 0
-        },
-        {
-            "visualRepr": "16",
-            "id": "selectionLabel",
-            "row": 15,
-            "col": 0
-        },
-        {
-            "visualRepr": "17",
-            "id": "selectionLabel",
-            "row": 16,
-            "col": 0
-        },
-        {
-            "visualRepr": "18",
-            "id": "selectionLabel",
-            "row": 17,
-            "col": 0
-        },
-        {
-            "visualRepr": "19",
-            "id": "selectionLabel",
-            "row": 18,
-            "col": 0
-        },
-        {
-            "visualRepr": "20",
-            "id": "selectionLabel",
-            "row": 19,
-            "col": 0
-        },
-        {
-            "visualRepr": "21",
-            "id": "selectionLabel",
-            "row": 20,
-            "col": 0
-        },
-        {
-            "visualRepr": "22",
-            "id": "selectionLabel",
-            "row": 21,
-            "col": 0
-        },
-        {
-            "visualRepr": "23",
-            "id": "selectionLabel",
-            "row": 22,
-            "col": 0
-        },
-        {
-            "visualRepr": "24",
-            "id": "selectionLabel",
-            "row": 23,
-            "col": 76
-        },
-        {
-            "visualRepr": "25",
-            "id": "selectionLabel",
-            "row": 24,
-            "col": 77
-        },
-        {
-            "visualRepr": "26",
-            "id": "selectionLabel",
-            "row": 25,
-            "col": 78
+            "col": 5,
+            "type": "field"
         },
         {
             "visualRepr": " {{date}}",
             "id": "selectionLabel",
             "row": 24,
-            "col": 0
+            "col": 0,
+            "type": "attentionIndicator"
         },
         {
             "visualRepr": " {{time}}",
             "id": "selectionLabel",
             "row": 25,
-            "col": 0
+            "col": 0,
+            "type": "attentionIndicator"
         }
     ]
 }

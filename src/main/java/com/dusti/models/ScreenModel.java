@@ -9,6 +9,7 @@ public class ScreenModel {
     private String name;
     private String title;
     private List<ScreenElementModel> elements;
+    
 
     public ScreenModel(String name, String title, List<ScreenElementModel> elements) {
         this.name = name;
