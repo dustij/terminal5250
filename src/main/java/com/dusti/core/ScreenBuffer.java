@@ -150,6 +150,10 @@ public class ScreenBuffer {
         // Get index of last unprotected cell following this cell
         int indexEnd = findNextUnprotectedIndexAfter(row, col);
 
+        // Remove char 
+        removeCharAt(row, col);
+
+        // Shift left
         for (int i = 0; i < indexEnd - col; i++) {
             var ch = getCharAt(row, col + i + 1);
             removeCharAt(row, col + i + 1);
