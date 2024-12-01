@@ -2,9 +2,9 @@ package com.dusti.core;
 
 import java.util.Map;
 import java.util.logging.Logger;
-import com.dusti.loaders.ScreenLoader;
 import com.dusti.models.ScreenModel;
-import com.dusti.loaders.strategies.JsonScreenLoaderStrategy;
+import com.dusti.templates.ScreenLoader;
+import com.dusti.templates.strategies.JsonScreenLoaderStrategy;
 
 public class ScreenManager {
     private final Logger logger = LoggerFactory.getLogger(ScreenManager.class.getName());

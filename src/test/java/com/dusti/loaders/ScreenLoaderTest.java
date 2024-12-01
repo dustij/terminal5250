@@ -1,7 +1,9 @@
 package com.dusti.loaders;
 
 import com.dusti.models.ScreenModel;
-import com.dusti.loaders.strategies.JsonScreenLoaderStrategy;
+import com.dusti.templates.ScreenLoader;
+import com.dusti.templates.ScreenLoaderStrategy;
+import com.dusti.templates.strategies.JsonScreenLoaderStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

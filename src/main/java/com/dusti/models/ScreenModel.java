@@ -1,7 +1,6 @@
 package com.dusti.models;
 
 import java.util.List;
-import com.dusti.interfaces.ScreenElement;
 
 /**
  * This represents an object in the screen resource file (JSON, XML, PlainText, etc.)

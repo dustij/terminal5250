@@ -1,4 +1,4 @@
-package com.dusti.loaders.strategies;
+package com.dusti.templates.strategies;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,8 +11,10 @@ import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
 import com.dusti.core.LoggerFactory;
-import com.dusti.loaders.ScreenLoaderStrategy;
 import com.dusti.models.ScreenModel;
+import com.dusti.templates.ScreenLoaderStrategy;
+import com.dusti.templates.TemplateContext;
+import com.dusti.templates.TemplateRenderer;
 import com.google.gson.Gson;
 
 public class JsonScreenLoaderStrategy implements ScreenLoaderStrategy {
@@ -34,8 +36,15 @@ public class JsonScreenLoaderStrategy implements ScreenLoaderStrategy {
         try (var stream = JsonScreenLoaderStrategy.class.getResourceAsStream("/screens/json/" + filename);
             var reader = new BufferedReader(new InputStreamReader(stream))
         ) {
-            Gson gson = new Gson();
-            return gson.fromJson(reader, ScreenModel.class);
+            var gson = new Gson();
+            var model = gson.fromJson(reader, ScreenModel.class);
+            // Render templates
+            for (var elem : model.getElements()) {
+                var template = elem.getVisualRepr();
+                var context = TemplateContext.getContextMap().get(model.getName());
+                elem.setVisualRepr(TemplateRenderer.renderTemplate(template, context));
+            }
+            return model;
         } catch (Exception e) {
             throw new RuntimeException("Could not load from JSON -> ", e);
         }

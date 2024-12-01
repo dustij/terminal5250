@@ -7,7 +7,7 @@ import com.dusti.interfaces.ScreenElement;
  * 
  */
 public class ScreenElementModel implements ScreenElement{
-    private final String visualRepr;
+    private String visualRepr;
     private final String id;
     private final int row;
     private final int col;
@@ -22,6 +22,11 @@ public class ScreenElementModel implements ScreenElement{
     @Override
     public String getVisualRepr() {
         return visualRepr;
+    }
+
+    @Override
+    public void setVisualRepr(String str) {
+        visualRepr = str;
     }
 
     @Override

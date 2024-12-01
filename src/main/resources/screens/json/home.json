@@ -207,19 +207,13 @@
             "col": 78
         },
         {
-            "visualRepr": "24",
-            "id": "selectionLabel",
-            "row": 23,
-            "col": 0
-        },
-        {
-            "visualRepr": "25",
+            "visualRepr": " {{date}}",
             "id": "selectionLabel",
             "row": 24,
             "col": 0
         },
         {
-            "visualRepr": "26",
+            "visualRepr": " {{time}}",
             "id": "selectionLabel",
             "row": 25,
             "col": 0

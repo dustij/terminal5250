@@ -1,4 +1,4 @@
-package com.dusti.loaders;
+package com.dusti.templates;
 
 import java.nio.file.Path;
 import java.util.HashMap;
